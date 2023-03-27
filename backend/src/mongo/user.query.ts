@@ -19,7 +19,6 @@ export class MongoUserQuery {
             }
         }
         catch(error: any) {
-            console.log(error);
             return Errors.dbError; //TODO
         }
     }
