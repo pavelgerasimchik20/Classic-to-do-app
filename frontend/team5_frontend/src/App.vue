@@ -1,4 +1,5 @@
 <template>
+  <img alt="Vue logo" src="./assets/logo.png">
   <div class="app">
     <ToDoAddForm @add="AddToDo"/>
     <ToDoList :todos="todos"/>
@@ -12,7 +13,8 @@ import ToDoList from "@/components/ToDoList.vue"
 export default {
   name: 'App',
   components: {
-    ToDoAddForm, ToDoList
+    ToDoAddForm, 
+    ToDoList
   },
   data() {
       return {
