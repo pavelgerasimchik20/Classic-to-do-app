@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { StaticEnvironment } from './core/environment.static';
 import UserController from './modules/user.controller'
+import ToDoController from './modules/todo.controller'
 
 const app = express();
 
@@ -11,15 +12,9 @@ app.use(cors());
 app.post('/create-user', UserController.createUser)
 
 
-app.get('/get-todos', function (req: Request, res: Response) {
-    res.send('Hello Team5. Here are will be get-todos')
-    console.log(new Date(), ': /get-todos')
-})  //TODO
+app.get('/get-todos', ToDoController.getAllToDos)
 
-app.post('/add-todo', function (req: Request, res: Response) {
-    res.send('Hello Team5. Here are will be add-todo')
-    console.log(new Date(), ': /add-todo')
-})  //TODO
+app.post('/add-todo', ToDoController.createToDo)
 
 app.delete('/delete-todo', function (req: Request, res: Response) {
     res.send('Hello Team5. Here are will be delete-todo')
