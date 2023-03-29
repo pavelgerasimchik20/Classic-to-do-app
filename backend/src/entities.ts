@@ -6,3 +6,10 @@ export interface INewToDo {
     user_id: string,
     todos: string
 };
+export interface IUserTodos {
+    todos: Array<Todo>
+};
+interface Todo {
+    id: string,
+    name: string
+};

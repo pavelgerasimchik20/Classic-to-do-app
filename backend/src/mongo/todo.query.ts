@@ -37,4 +37,23 @@ export class MongoToDoQuery {
             // return Errors.dbError; //TODO
         }
     }
+
+    public static async getAllToDosByUserEmail(database: Database, searchCollection: Collections, userEmail: string): Promise<any | undefined> {
+        try {
+            const connection = await MongoHelper.establishConnection(database, searchCollection);
+            const response = await connection.find(
+                    { "user_email": userEmail },
+                    { projection: { _id: 0, todos: 1 } }
+                )
+                .toArray();
+
+            if (response) {
+                console.log("getAllToDosByUserEmail received!");
+                return response;
+            }
+        }
+        catch(error: any) {
+            // return Errors.dbError; //TODO
+        }
+    }
 }
