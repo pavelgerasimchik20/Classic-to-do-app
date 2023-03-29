@@ -14,6 +14,8 @@ app.post('/create-user', UserController.createUser)
 
 app.get('/get-todos', ToDoController.getAllToDos)
 
+app.post('/get-todos-byemail', ToDoController.getAllToDosByUserEmail)
+
 app.post('/add-todo', ToDoController.createToDo)
 
 app.delete('/delete-todo', function (req: Request, res: Response) {
