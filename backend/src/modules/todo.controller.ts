@@ -37,6 +37,22 @@ class ToDoController {
             return res.status(500).json({ errorMessage: Errors.callToAdmin }); //TODO ResponseHelper
         }
     }
+
+    async getAllToDosByUserEmail(req: Request, res: Response, next: NextFunction) {
+        try {
+            const userEmail: string = req.body.email;
+
+            const result = await MongoToDoQuery.getAllToDosByUserEmail(
+                Database.T5Todos, 
+                Collections.Lists,
+                userEmail);
+            return res.status(200).json({result})
+        }
+        catch (error: any){
+            console.log("createToDo - server error")
+            return res.status(500).json({ errorMessage: Errors.callToAdmin }); //TODO ResponseHelper
+        }
+    }
 }
 
 export default new ToDoController();
