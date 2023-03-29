@@ -1,6 +1,7 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <div class="app">
+    <LoginComponent/>
     <ToDoAddForm @add="AddToDo"/>
     <ToDoList :result="todos"/>
 
@@ -10,6 +11,7 @@
 <script>
 import ToDoAddForm from "./components/ToDoAddForm.vue"
 import ToDoList from "@/components/ToDoList.vue"
+import LoginComponent from "@/components/LoginComponent.vue"
 
 import axios from "axios"
 
@@ -18,6 +20,7 @@ export default {
   components: {
     ToDoAddForm,
     ToDoList,
+    LoginComponent
   },
   data() {
       return {
