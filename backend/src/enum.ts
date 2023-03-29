@@ -4,7 +4,7 @@ export enum Database {
 
 export enum Collections {
     Users = "Users",
-    Lists = "lists"
+    Lists = "Lists"
 }
 
 export enum Errors {
