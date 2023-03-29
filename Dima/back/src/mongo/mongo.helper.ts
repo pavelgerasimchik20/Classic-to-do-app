@@ -11,6 +11,6 @@ export class MongoHelper {
     public static async establishConnection(database: string, searchCollection: string) {
         await client.connect();
         const connection = client.db(database).collection(searchCollection);
-        return connection;
+        return connection; //TODO pooll
     }
 }
