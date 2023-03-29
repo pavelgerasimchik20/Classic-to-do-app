@@ -17,6 +17,7 @@ export class MongoToDoQuery {
             if (response) {
                 return response.insertedId.toString();
             }
+            return 
         }
         catch(error: any) {
             return Errors.dbError; //TODO

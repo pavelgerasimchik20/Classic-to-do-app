@@ -27,7 +27,7 @@ export default {
     },
     methods: {
         addToDo() {
-            this.todo.id = Date.now();
+            this.todo.id = Date.now().toString();
             this.todo.createDate = new Date().toLocaleString();
             this.$emit('add', this.todo);
             this.post = {
