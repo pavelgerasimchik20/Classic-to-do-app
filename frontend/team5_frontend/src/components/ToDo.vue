@@ -4,7 +4,7 @@
             <li v-for="todo in todos" :key="todo._id">{{ todo.todos }}</li>
         </ul>
     </div>
-    <button @onclik="deleteTask">Done</button>
+    <button @click="deleteTask">Done</button>
 </template>
 
 <script>

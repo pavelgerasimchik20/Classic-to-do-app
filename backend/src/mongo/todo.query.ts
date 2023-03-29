@@ -26,7 +26,7 @@ export class MongoToDoQuery {
     public static async getAllToDos(database: Database, searchCollection: Collections): Promise<any[] | undefined> {
         try {
             const connection = await MongoHelper.establishConnection(database, searchCollection);
-            const response = await connection.find().toArray();
+            const response = await connection.find({}, { projection: { _id: 0, todos: 1 } }).toArray();
 
             if (response) {
                 console.log(response);

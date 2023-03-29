@@ -2,7 +2,8 @@
   <img alt="Vue logo" src="./assets/logo.png">
   <div class="app">
     <ToDoAddForm @add="AddToDo"/>
-    <ToDoList :todos="todos"/>
+    <ToDoList :result="todos"/>
+
   </div>
 </template>
 
@@ -10,27 +11,34 @@
 import ToDoAddForm from "./components/ToDoAddForm.vue"
 import ToDoList from "@/components/ToDoList.vue"
 
+import axios from "axios"
+
 export default {
   name: 'App',
   components: {
-    ToDoAddForm, 
-    ToDoList
+    ToDoAddForm,
+    ToDoList,
   },
   data() {
       return {
-          todos: [
-              { id: 1, createDate: new Date().toLocaleString(), todo: "first"},
-              { id: 2, createDate: new Date().toLocaleString(), todo: "second"},
-              { id: 3, createDate: new Date().toLocaleString(), todo: "third"},
-              { id: 4, createDate: new Date().toLocaleString(), todo: "fourth"}
-          ],
+          todos: [],
       }
   },
   methods: {
     AddToDo(todo) {
       this.todos.push(todo);
     }
-  }
+  },
+  mounted() {
+            axios.get('http://localhost:6060/get-todos')
+            .then(response => {
+                this.todos = response.data;
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        },
 }
 </script>
 
