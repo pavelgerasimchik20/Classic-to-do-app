@@ -32,7 +32,7 @@ export default {
   mounted() {
             axios.get('http://localhost:6060/get-todos')
             .then(response => {
-                this.todos = response.data;
+                this.todos = response.data.result;
                 console.log(response.data);
             })
             .catch(error => {

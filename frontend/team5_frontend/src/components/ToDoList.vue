@@ -3,17 +3,14 @@
     <div class="todo" v-for="todo in result ">
       <!-- <div> № {{ todo.id }}</div>
       <div>create date: {{ todo.createDate }}</div> -->
-      <div>to do: {{ todo[0].todos }}</div>
+      <div>to do: {{ todo.todos }}</div>
     </div>
 </template>
 
 <script >
 export default {
     props: {
-        result: {
-            type: Object,
-            required: true
-        }
+        result: {}
     }
 }
  
