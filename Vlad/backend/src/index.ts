@@ -18,10 +18,7 @@ app.post('/get-todos-byemail', ToDoController.getAllToDosByUserEmail)
 
 app.post('/add-todo', ToDoController.createToDo)
 
-app.delete('/delete-todo', function (req: Request, res: Response) {
-    res.send('Hello Team5. Here are will be delete-todo')
-    console.log(new Date(), ': /delete-todo')
-})  //TODO
+app.delete('/delete-todo', ToDoController.deleteToDo)  //TODO
 
 
 app.listen(

@@ -1,14 +1,19 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <ToDoList />
+    <br />
+  <AddToDo />
 </template>
 
 <script>
 import ToDoList from "./components/ToDoList.vue"
+import AddToDo from "./components/AddToDo.vue";
+
 export default {
   name: 'App',
   components: {
-    ToDoList
+    ToDoList,
+    AddToDo
   }
 }
 </script>

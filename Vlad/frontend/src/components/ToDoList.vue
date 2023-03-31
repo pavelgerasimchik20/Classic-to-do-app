@@ -8,7 +8,7 @@
       style="margin-top: 10px"
     >
       <v-card-text
-        style="display: flex; align-items: center; justify-content: space-between"
+        style="display: flex; align-items: center; justify-content: space-between; color:black"
       >
         {{ todo.todos }}
         <v-btn

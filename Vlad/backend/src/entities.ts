@@ -3,7 +3,7 @@ export interface INewUser {
     date_create: string
 };
 export interface INewToDo {
-    user_id: string,
+    user_email: string,
     todos: string
 };
 export interface IUserTodos {
