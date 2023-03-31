@@ -10,7 +10,7 @@ class ToDoController {
     async createToDo(req: Request, res: Response, next: NextFunction) {
         console.log("createToDo - started...")
         try {
-            const newTask: INewToDo = req.body.task
+            const newTask: INewToDo = req.body.newTask
 
             if (!newTask) {
                 console.log("createToDo - task is empty")
@@ -27,6 +27,26 @@ class ToDoController {
         }
     }
 
+    async deleteToDo(req: Request, res: Response, next: NextFunction) {
+        console.log("createToDo - started...")
+        try {
+            const taskId: INewToDo = req.body.taskId
+
+            if (!taskId) {
+                console.log("createToDo - task is empty")
+                return res.status(400).json({ errorMessage: Errors.noData });
+            }
+
+            const result = await MongoToDoQuery.deleteToDo(Database.T5Todos, Collections.Dima, taskId);
+            console.log("createToDo - todos created!")
+            return res.status(200).json({ result });
+        }
+        catch (error: any){
+            console.log("createToDo - server error")
+            return res.status(500).json({ errorMessage: Errors.callToAdmin }); //TODO ResponseHelper
+        }
+    }
+    
     async getAllToDosByUserEmail(req: Request, res: Response, next: NextFunction) {
         try {
             const userEmail: string = req.body.email;

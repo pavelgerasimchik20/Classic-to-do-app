@@ -10,10 +10,7 @@ app.use(cors());
 
 app.post('/get-todos', ToDoController.getAllToDosByUserEmail)
 app.post('/add-todo', ToDoController.createToDo)
-app.delete('/delete-todo', function (req: Request, res: Response) {
-    res.send('Hello Team5. Here are will be delete-todo')
-    console.log(new Date(), ': /delete-todo')
-})  //TODO
+app.post('/delete-todo', ToDoController.deleteToDo)
 
 app.listen(
     StaticEnvironment.port,

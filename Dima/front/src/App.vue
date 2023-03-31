@@ -2,16 +2,15 @@
     <h1>Your ToDo</h1>
 
     <div v-if="tasks.length > 0">
+
+        <p> Create task </p>
+
         <h2>List:</h2>
         <ul>
             <li v-for="task in tasks" :key="task.task_id">
                 <p>{{ task.task }}</p>
             </li>
         </ul>
-    </div>
-
-    <div v-else-if="email && tasks.length < 1">
-        <p> Create task </p>
     </div>
 
     <div v-else-if="!email">
@@ -40,7 +39,6 @@ export default {
     },
 
     methods: {
-
         callback(response) {
             localStorage.setItem("key", JSON.stringify(response.credential))
             this.userData = decodeCredential(response.credential);
@@ -56,13 +54,24 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+        },
+
+        async createTask(task) {
+            const newTask = {
+                user_email: localStorage.getItem("key"),
+                task_id: ,
+                task: task,
+                date_create: string
+            }
         }
     },
 
     mounted() {
         this.fetchTasks()
     }
+
 }
+
 </script>
 
 <style>

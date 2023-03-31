@@ -8,7 +8,7 @@ export class MongoToDoQuery {
         try {
             const newToDo: INewToDo = {
                 user_email: newTask.user_email,
-                id: newTask.id,
+                task_id: newTask.task_id,
                 task: newTask.task,
                 date_create: newTask.date_create
             };
@@ -22,6 +22,26 @@ export class MongoToDoQuery {
 
             console.log("createToDo succesfull!");
             return response.insertedId.toString();
+        }
+        catch (error: any) {
+            console.log("getAllToDosByUserEmail error!");
+            return Errors.dbError;
+        }
+    }
+
+    public static async deleteToDo(database: Database, searchCollection: Collections, taskId: INewToDo): Promise<string | undefined> {
+        try {
+            
+            const connection = await MongoHelper.establishConnection(database, searchCollection);
+            const response = await connection.deleteOne({task_id: taskId});
+
+            if (!response) {
+                console.log("deleteToDo querry error!");
+                return undefined; //TODO 
+            }
+
+            console.log("deleteToDo succesfull!");
+            return response.deletedCount == 1 ? taskId + " was deleted" : taskId + " not found" ;
         }
         catch (error: any) {
             console.log("getAllToDosByUserEmail error!");
