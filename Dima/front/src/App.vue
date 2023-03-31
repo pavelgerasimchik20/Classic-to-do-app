@@ -1,23 +1,42 @@
 <template>
     <h1>Your ToDo</h1>
+    <v-divider></v-divider>
 
     <div v-if="tasks.length > 0">
 
         <div class="new__task">
-        <v-text-field label="New task" v-model="newTask" ></v-text-field>
+            <v-text-field label="New task" v-model="newTask"></v-text-field>
 
-        <v-btn prepend-icon="mdi-vuetify" @click="createTask">
-            Add task
-        </v-btn>
-    </div>
+            <v-btn prepend-icon="mdi-vuetify" @click="createTask">
+                Add task
+            </v-btn>
+        </div>
 
         <h2>List:</h2>
         <ul>
             <li v-for="task in tasks" :key="task.task_id">
-                <p>{{ task.task }}</p>
+                <p>{{task.task}}</p>
                 <v-btn @click="deleteTask(task.task_id)">delete</v-btn>
             </li>
         </ul>
+
+        <h2>List v2:</h2>
+        <div v-for="task in tasks" :key="task.task_id">
+        <v-card
+            class="mx-auto"
+            max-width="400"
+            variant="elevated"
+            >
+            <v-card-item>
+                <div class="text-caption">{{task.task}}</div>
+            </v-card-item>
+            <v-card-actions>
+                <v-btn rounded="xl" variant="elevated" @click="deleteTask(task.task_id)">x</v-btn>
+            </v-card-actions>
+        </v-card>
+        </div>
+
+
     </div>
 
     <div v-else-if="!email">
@@ -42,7 +61,7 @@ export default {
             tasks: [],
             userData: null,
             email: '',
-            newTask: ""
+            newTask: "",
         }
     },
 
@@ -126,7 +145,7 @@ export default {
 }
 
 .new__task {
-    display:grid;
+    display: grid;
     grid-template-columns: 60vw 40vw;
 }
 </style>
