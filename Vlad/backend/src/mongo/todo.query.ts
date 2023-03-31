@@ -30,12 +30,13 @@ export class MongoToDoQuery {
 
             const objectId = new ObjectId(id);
             const connection = await MongoHelper.establishConnection(database, searchCollection);
-            const response = await connection.deleteOne({_id: objectId});
 
-            if (response) {
-                return response.toString();
-            }
-            return "No task with this id"
+            const response = await connection.deleteOne({_id: objectId});
+            if (response.deletedCount === 1) {
+                return `Successfully deleted document with ID: ${id}`;
+            } else {
+                return `No document found with ID: ${id}`;
+            }  
         }
         catch {
                 return Errors.dbError; //TODO
@@ -45,7 +46,7 @@ export class MongoToDoQuery {
     public static async getAllToDos(database: Database, searchCollection: Collections): Promise<any[] | undefined> {
         try {
             const connection = await MongoHelper.establishConnection(database, searchCollection);
-            const response = await connection.find({}, { projection: { _id: 0, todos: 1 } }).toArray();
+            const response = await connection.find({}, { projection: { todos: 1, user_email: 1 } }).toArray();
 
             if (response) {
                 console.log(response);

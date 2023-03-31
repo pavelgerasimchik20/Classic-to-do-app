@@ -18,7 +18,7 @@ app.post('/get-todos-byemail', ToDoController.getAllToDosByUserEmail)
 
 app.post('/add-todo', ToDoController.createToDo)
 
-app.delete('/delete-todo', ToDoController.deleteToDo)  //TODO
+app.delete('/delete-todo/:id', ToDoController.deleteToDo)  //TODO
 
 
 app.listen(

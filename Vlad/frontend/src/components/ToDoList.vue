@@ -14,7 +14,7 @@
         <v-btn
           :color="getButtonColor(index)"
           margin-left="20px"
-          @click="toggleComplete(index)"
+          @click="pressIDid(todo._id, index)"
           >{{getButtonText(index)}}</v-btn
         >
       </v-card-text>
@@ -23,6 +23,7 @@
   
   <script>
   import axios from "axios";
+
   
   export default {
     data() {
@@ -51,6 +52,21 @@
           this.completedToDos.push(index);
         }
       },
+      deleteToDo(id) {
+        console.log(`deleting ${id}`);
+        axios
+        .delete(`http://localhost:6060/delete-todo/${id}`)
+        .then(() => {
+            console.log(`deleting ${id}`)
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+      },
+      pressIDid(id, index) {
+        this.deleteToDo(id);
+        this.toggleComplete(index);
+      }
     },
     computed: {
       getButtonColor() {

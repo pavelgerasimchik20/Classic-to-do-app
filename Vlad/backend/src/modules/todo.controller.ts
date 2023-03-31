@@ -31,7 +31,7 @@ class ToDoController {
     async deleteToDo(req: Request, res: Response, next: NextFunction) {
         console.log("deleteToDo - started...")
         try {
-            const deletingTodo: string = req.body._id; // TODO
+            const deletingTodo: string = req.params.id; // TODO
 
             if (!deletingTodo) {
                 console.log("There is no this id")
@@ -39,8 +39,8 @@ class ToDoController {
             }
 
             const result = await MongoToDoQuery.deleteToDo(Database.T5Todos, Collections.Lists, deletingTodo);
-            console.log("ToDo deleted")
-            return res.status(200).json(`${deletingTodo} is deleted`);
+            console.log(result)
+            return res.status(200).json(result);
         }
         catch (error: any){
             console.log("createToDo - server error")
