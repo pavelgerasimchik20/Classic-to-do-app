@@ -10,7 +10,7 @@ class ToDoController {
     async createToDo(req: Request, res: Response, next: NextFunction) {
         console.log("createToDo - started...")
         try {
-            const newTask: INewToDo = req.body.newTask
+            const newTask: INewToDo = req.body.taskToAdd
 
             if (!newTask) {
                 console.log("createToDo - task is empty")

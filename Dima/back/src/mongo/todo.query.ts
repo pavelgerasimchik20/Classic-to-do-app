@@ -21,7 +21,7 @@ export class MongoToDoQuery {
             }
 
             console.log("createToDo succesfull!");
-            return response.insertedId.toString();
+            return response.acknowledged == true ? "task was added": "task was not added" ;
         }
         catch (error: any) {
             console.log("getAllToDosByUserEmail error!");
@@ -41,7 +41,7 @@ export class MongoToDoQuery {
             }
 
             console.log("deleteToDo succesfull!");
-            return response.deletedCount == 1 ? taskId + " was deleted" : taskId + " not found" ;
+            return response.deletedCount == 1 ? "deleted" : "not found" ;
         }
         catch (error: any) {
             console.log("getAllToDosByUserEmail error!");
