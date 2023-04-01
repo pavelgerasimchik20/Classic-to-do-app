@@ -5,12 +5,8 @@ import { MongoHelper } from "./mongo.helper";
 
 export class MongoToDoQuery {
 
-    public static async createToDo(database: Database, searchCollection: Collections, todos: string): Promise<string | undefined> {
+    public static async createToDo(database: Database, searchCollection: Collections, newToDo: INewToDo): Promise<string | undefined> {
         try {
-            const newToDo: INewToDo = {
-                email: "pavelgerasimchik20@gmail.com",
-                todos: todos
-            };
             const connection = await MongoHelper.establishConnection(database, searchCollection);
             const response = await connection.insertOne(newToDo);
 
@@ -20,7 +16,7 @@ export class MongoToDoQuery {
             return 
         }
         catch(error: any) {
-            return Errors.dbError; //TODO
+            return Errors.dbError;
         }
     }
 
@@ -35,7 +31,7 @@ export class MongoToDoQuery {
             }
         }
         catch(error: any) {
-            // return Errors.dbError; //TODO
+            // return Errors.dbError;
         }
     }
 

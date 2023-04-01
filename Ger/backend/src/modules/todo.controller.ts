@@ -7,18 +7,21 @@ class ToDoController {
 
     constructor() { }
 
-    async createToDo(req: Request, res: Response, next: NextFunction) {
+    async addToDo(req: Request, res: Response, next: NextFunction) {
         console.log("createToDo - started...")
         try {
-            const todos: string = req.body.todos; // TODO
+            const newToDo: INewToDo = {
+                email: req.body.email,
+                text: req.body.text
+            };
 
-            if (!todos) {
-                console.log("todos is empty")
+            if (!newToDo.text) {
+                console.log("text is empty")
                 return res.status(400).json({ errorMessage: Errors.noData });
             }
 
-            const result = await MongoToDoQuery.createToDo(Database.T5Todos, Collections.Ger, todos);
-            console.log("createToDo - todos created!")
+            const result = await MongoToDoQuery.createToDo(Database.T5Todos, Collections.Ger, newToDo);
+            console.log("add method - todos created!")
             return res.status(200).json({ result });
         }
         catch (error: any){

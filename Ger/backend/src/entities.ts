@@ -4,7 +4,7 @@ export interface INewUser {
 };
 export interface INewToDo {
     email: string,
-    todos: string
+    text: string
 };
 export interface IUserTodos {
     todos: Array<Todo>

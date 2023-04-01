@@ -3,7 +3,7 @@
     <v-container>
       <h1>To-Do List</h1>
       <v-form @submit.prevent="addTodo">
-        <v-text-field label="New To-Do" v-model="newTodoText" required></v-text-field>
+        <v-text-field label="New To-Do" v-model="text" required></v-text-field>
         <v-btn type="submit" color="teal">Add</v-btn>
       </v-form>
       <v-row class="mt-4" v-if="todos.length">
@@ -16,26 +16,27 @@
           </v-card>
         </v-col>
       </v-row>
+      <!-- {{ email }} -->
     </v-container>
-    <!-- <GoogleLogin :callback="callback" v-else /> -->
   </v-app>
 </template>
 
 <script>
 
 import { decodeCredential } from 'vue3-google-login';
-import axios from 'axios'
+import axios from 'axios';
+import VueCookies from 'vue-cookies';
 
 export default {
   data() {
     return {
       todos: [],
-      newTodoText: '',
-      email: ''
+      text: '',
+      email: decodeCredential(VueCookies.get('token')).email
     }
   },
   mounted() {
-            axios.get('http://localhost:6060/get-todos')
+            axios.get('http://localhost:6060/getAll')
             .then(response => {
                 this.todos = response.data.result;
                 console.log(response.data);
@@ -46,13 +47,14 @@ export default {
   },
   methods: {
     addTodo() {
-      axios.post('http://localhost:6060/add-todo', {
-        todos: this.newTodoText
+      axios.post('http://localhost:6060/add', {
+        email: this.email,
+        text: this.text
       })
       .then(response => {
         console.log(response.data);        
         this.todos.push(response.data.result);
-        this.newTodoText = "";
+        this.text = "";
         this.todos = [...this.todos];
       })
       .catch(error => {
@@ -62,13 +64,6 @@ export default {
     },
     removeTodo(index) {
       this.todos.splice(index, 1);
-    },
-    callback(response) {
-      this.isLoggedIn = true;
-      this.userData = decodeCredential(response.credential);
-      this.email = this.userData.email;
-      this.token = response.credential;
-      console.log(this.userData);
     }
   }
 }
