@@ -21,8 +21,8 @@ export default {
   },
   methods: {
     callback(response) {
-      this.$emit('change', this.isLoggedIn);
-      this.isLoggedIn = true;
+      //this.$emit('change', this.isLoggedIn);
+      //this.isLoggedIn = true;
       this.userData = decodeCredential(response.credential);
       this.email = this.userData.email;
       this.token = response.credential;

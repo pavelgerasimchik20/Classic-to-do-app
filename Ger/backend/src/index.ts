@@ -11,17 +11,13 @@ app.use(cors());
 
 app.post('/create-user', UserController.createUser)
 
-
 app.get('/getAll', ToDoController.getAllToDos)
 
 app.post('/getByEmail', ToDoController.getAllToDosByUserEmail)
 
 app.post('/add', ToDoController.addToDo)
 
-app.delete('/delete-todo', function (req: Request, res: Response) {
-    res.send('Hello Team5. Here are will be delete-todo')
-    console.log(new Date(), ': /delete-todo')
-})  //TODO
+app.delete('/delete/:id',ToDoController.deleteToDo)
 
 
 app.listen(

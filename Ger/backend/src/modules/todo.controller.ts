@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { INewToDo } from "../entities";
 import { Collections, Database, Errors } from "../enum";
 import { MongoToDoQuery } from "../mongo/todo.query";
+import { ObjectId } from 'mongodb';
 
 class ToDoController {
 
@@ -54,6 +55,26 @@ class ToDoController {
         catch (error: any){
             console.log("getAllToDosByUserEmail - server error")
             return res.status(500).json({ errorMessage: Errors.callToAdmin });
+        }
+    }
+
+    async deleteToDo(req: Request, res: Response, next: NextFunction) {
+        console.log("deleteToDo - started...")
+        try {
+            const id: string = req.params.id;
+
+            if (!id) {
+                console.log("id is empty")
+                return res.status(400).json({ errorMessage: Errors.noData });
+            }
+
+            const result = await MongoToDoQuery.removeToDo(Database.T5Todos, Collections.Ger, id);
+            console.log("delete method - todos deleted!")
+            return res.status(200).json({ result });
+        }
+        catch (error: any){
+            console.log("deleteToDo - server error")
+            return res.status(500).json({ errorMessage: Errors.callToAdmin }); 
         }
     }
 }

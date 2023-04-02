@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { INewToDo } from "../entities";
 import { Collections, Database, Errors } from "../enum";
 import { DateHelper } from "../helpers/date.helper";
@@ -23,7 +24,7 @@ export class MongoToDoQuery {
     public static async getAllToDos(database: Database, searchCollection: Collections): Promise<any[] | undefined> {
         try {
             const connection = await MongoHelper.establishConnection(database, searchCollection);
-            const response = await connection.find({}, { projection: { _id: 0, todos: 1 } }).toArray();
+            const response = await connection.find({}, { projection: {  text: 1 , email: 1} }).toArray();
 
             if (response) {
                 console.log(response);
@@ -50,7 +51,24 @@ export class MongoToDoQuery {
             }
         }
         catch(error: any) {
-            // return Errors.dbError; //TODO
+            return Errors.dbError; //TODO
+        }
+    }
+
+    public static async removeToDo(database: Database, searchCollection: Collections, id: string): Promise<string | undefined> {
+        try {
+
+            const myid: ObjectId  = new ObjectId(id);
+            const connection = await MongoHelper.establishConnection(database, searchCollection);
+            const response = await connection.deleteOne({_id: myid});
+
+            if (response.deletedCount === 1) {
+                return `deleted ${id}`;
+            }
+            return Errors.noData
+        }
+        catch(error: any) {
+            return Errors.dbError;
         }
     }
 }
