@@ -1,7 +1,9 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <LoginComponent/>
-  <ToDoComponent />
+  <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+  <div class="app"> 
+    <LoginComponent/>
+    <ToDoComponent />
+  </div>
 </template>
 
 <script>
@@ -12,11 +14,12 @@ export default {
   name: 'App',
   components: {
     ToDoComponent,
-    LoginComponent
+    LoginComponent,
   },
   data() {
     return {
-      email: ''
+      email: '',
+      dialogVisible: false
     }
   },
   // mounted() {
