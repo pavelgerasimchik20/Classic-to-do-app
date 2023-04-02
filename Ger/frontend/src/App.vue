@@ -14,24 +14,8 @@ export default {
   name: 'App',
   components: {
     ToDoComponent,
-    LoginComponent,
-  },
-  data() {
-    return {
-      email: '',
-      dialogVisible: false
-    }
-  },
-  // mounted() {
-  //           axios.get('http://localhost:6060/get-todos')
-  //           .then(response => {
-  //               this.todos = response.data.result;
-  //               console.log(response.data);
-  //           })
-  //           .catch(error => {
-  //               console.log(error);
-  //           });
-  //       }
+    LoginComponent
+  }
 }
 </script>
 

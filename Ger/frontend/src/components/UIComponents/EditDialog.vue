@@ -1,10 +1,4 @@
 <template>
-    <v-row justify="center" v-if="show">
-      <v-dialog
-        v-model="dialog"
-        persistent
-        width="1024"
-      >
         <v-card>
           <v-card-title>
             <span class="text-h6">editing...</span>
@@ -25,7 +19,7 @@
             <v-spacer></v-spacer>
             <v-btn
               color="blue-darken-1"
-              variant="text"
+              variant="text" 
               @click="dialog = false"
             >
               Close
@@ -39,8 +33,6 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-      </v-dialog>
-    </v-row>
   </template>
 
 <script>
@@ -53,6 +45,11 @@ export default {
     show: {
         type: Boolean,
         default: false
+    }
+  },
+  method: {
+    hide() {
+        this.$emit('update:show', false)
     }
   }
 }
