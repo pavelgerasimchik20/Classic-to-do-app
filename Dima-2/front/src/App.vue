@@ -5,21 +5,30 @@
     <div v-if="email">
         
         <div class="new__task">
-            <v-text-field
+            <v-textarea
                 label="New task (write and press 'add' or 'enter')" 
                 v-model="newTask"
                 @keyup.enter="createTask"
                 autofocus
                 required
                 >
-            </v-text-field>
+            </v-textarea>
+
+            <v-progress-circular 
+                v-if="creatingTask"
+                indeterminate
+                color="black"
+                >
+            </v-progress-circular>
 
             <v-btn
+                v-else
                 prepend-icon="mdi-vuetify" 
                 @click="createTask"
                 >
                 Add
             </v-btn>
+
 
         </div>
 
@@ -34,16 +43,35 @@
 
         <div v-for="task in tasks" :key="task.task_id" class="list__tasks">
         <v-card
-            class="mx-auto my-10 bg-orange-lighten-3"
-            max-width="400"
+            class="d-flex mx-auto my-5 bg-orange-lighten-3"
+            width="400"
             variant="elevated"
             >
-                <v-card-item>
-                    <div class="text-h6 text-left">{{task.task}}</div>
-                </v-card-item>
-                <v-card-actions>
-                    <v-btn class="ml-auto" rounded="xl" variant="elevated" @click="deleteTask(task.task_id)">x</v-btn>
+                <v-card-text class="ma-2 pa-2 me-auto">
+                    <div class="text-h7 text-left">{{task.task}}</div>
+                </v-card-text>
+
+                <div class="ma-2 pa-2 align-baseline w-25">
+                <v-card-actions class="d-flex align-center">
+
+                    <v-progress-circular 
+                        v-if="task.task_id == deletingTask"
+                        indeterminate
+                        color="black"
+                        >
+                    </v-progress-circular>
+
+                    <v-btn 
+                        v-else
+                        class="ml-auto" 
+                        rounded="xl" 
+                        variant="elevated" 
+                        @click="deleteTask(task.task_id)"
+                        >x
+                    </v-btn>
+
                 </v-card-actions>
+            </div>
         </v-card>
         </div>
 
@@ -72,6 +100,8 @@ export default {
             userData: null,
             email: '', //TODO change to token
             newTask: "",
+            deletingTask: "",
+            creatingTask: false
         }
     },
 
@@ -100,13 +130,14 @@ export default {
         },
 
         async createTask() {
+            this.creatingTask = true;
             const taskToAdd = {
                 user_email: localStorage.getItem("email"),
                 task_id: uuidv4(),
                 task: this.newTask,
                 date_create: Date().toString()
             }
-            axios.post('http://0.0.0.0:6600/add-todo', { taskToAdd })
+            await axios.post('http://0.0.0.0:6600/add-todo', { taskToAdd })
                 .then(response => {
                     if (response.data.result == "task was added") {
                         this.newTask = "";
@@ -117,10 +148,12 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+            this.creatingTask = false;
         },
 
         async deleteTask(taskId) {
-            axios.post('http://0.0.0.0:6600/delete-todo', { taskId })
+            this.deletingTask = taskId;
+            await axios.post('http://0.0.0.0:6600/delete-todo', { taskId })
                 .then(response => {
                     if (response.data.result == "deleted") {
                         this.fetchTasks();
@@ -130,6 +163,7 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+            this.deletingTask = "";
         }
     },
 
