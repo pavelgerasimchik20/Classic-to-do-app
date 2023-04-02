@@ -2,8 +2,13 @@
     <h1>Your ToDo</h1>
     <v-divider></v-divider>
 
-    <div v-if="email">
-        
+    <div v-if="!email">
+        <p> SignIn to see you todo:</p>
+        <GoogleLogin :callback="callback" />
+    </div>
+
+    <div v-else>
+
         <div class="new__task">
             <v-textarea
                 label="New task (write and press 'add' or 'enter')" 
@@ -28,8 +33,6 @@
                 >
                 Add
             </v-btn>
-
-
         </div>
 
         <h2>List {{ email }} ( 
@@ -77,10 +80,6 @@
 
     </div>
 
-    <div v-else>
-        <p> SignIn to see you todo:</p>
-        <GoogleLogin :callback="callback" />
-    </div>
 </template>
 
 <script>
