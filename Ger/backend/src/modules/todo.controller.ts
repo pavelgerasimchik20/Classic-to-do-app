@@ -42,18 +42,18 @@ class ToDoController {
         }
     }
 
-    async getAllToDosByUserEmail(req: Request, res: Response, next: NextFunction) {
+    async getToDosByEmail(req: Request, res: Response, next: NextFunction) {
         try {
-            const userEmail: string = req.body.email;
+            const userEmail: string = req.params.email;
 
-            const result = await MongoToDoQuery.getAllToDosByUserEmail(
+            const result = await MongoToDoQuery.getToDosByEmail(
                 Database.T5Todos, 
-                Collections.Lists,
+                Collections.Ger,
                 userEmail);
             return res.status(200).json({result})
         }
         catch (error: any){
-            console.log("getAllToDosByUserEmail - server error")
+            console.log("getToDoByUserEmail - server error")
             return res.status(500).json({ errorMessage: Errors.callToAdmin });
         }
     }

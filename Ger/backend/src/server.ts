@@ -13,7 +13,7 @@ app.post('/create-user', UserController.createUser)
 
 app.get('/getAll', ToDoController.getAllToDos)
 
-app.post('/getByEmail', ToDoController.getAllToDosByUserEmail)
+app.post('/getByEmail/:email', ToDoController.getToDosByEmail)
 
 app.post('/add', ToDoController.addToDo)
 

@@ -31,12 +31,14 @@ export default {
     return {
       todos: [],
       text: '',
-      email: decodeCredential(VueCookies.get('token')).email
+      email: ''
     }
   },
   mounted() {
-      axios.get('http://localhost:6060/getAll')
+      this.email = decodeCredential(VueCookies.get('token')).email
+      axios.post(`http://localhost:6060/getByEmail/${this.email}`)
       .then(response => {
+        console.log(response.data.result)
           this.todos = response.data.result;
           console.log('todos');
           console.log(this.todos);

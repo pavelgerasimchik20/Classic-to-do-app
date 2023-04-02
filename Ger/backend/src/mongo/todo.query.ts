@@ -36,22 +36,22 @@ export class MongoToDoQuery {
         }
     }
 
-    public static async getAllToDosByUserEmail(database: Database, searchCollection: Collections, userEmail: string): Promise<any | undefined> {
+    public static async getToDosByEmail(database: Database, searchCollection: Collections, userEmail: string): Promise<any | undefined> {
         try {
             const connection = await MongoHelper.establishConnection(database, searchCollection);
             const response = await connection.find(
-                    { "user_email": userEmail },
-                    { projection: { _id: 0, todos: 1 } }
+                    { "email": userEmail },
+                    { projection: { _id: 0, text: 1 } }
                 )
                 .toArray();
 
             if (response) {
-                console.log("getAllToDosByUserEmail received!");
+                console.log("getToDosByEmail received!");
                 return response;
             }
         }
         catch(error: any) {
-            return Errors.dbError; //TODO
+            return Errors.dbError; 
         }
     }
 
