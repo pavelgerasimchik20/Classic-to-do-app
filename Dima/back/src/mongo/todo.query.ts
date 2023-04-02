@@ -56,7 +56,8 @@ export class MongoToDoQuery {
                 { "user_email": userEmail },
                 { projection: { _id: 0, task_id: 1, task: 1 } }
             )
-                .toArray();
+            .sort( { "date_create": -1 } )
+            .toArray();
 
             if (!response) {
                 console.log("getAllToDosByUserEmail not received!");
