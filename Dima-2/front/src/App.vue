@@ -10,7 +10,7 @@
         density="compact"
       >
 
-        <v-app-bar-title>Your ToDo</v-app-bar-title>
+        <v-app-bar-title class="text-h2">Yo-yo ToDo</v-app-bar-title>
 
       </v-app-bar>
 

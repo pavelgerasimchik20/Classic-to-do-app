@@ -7,14 +7,14 @@
 
     <div v-else>
         <div class="my-7">
-            <h2>List {{ email }} ( 
+            <h3>Hi {{ email }} ( 
                 <v-btn 
                     size="x-small" 
                     @click="clearEmail"
                     >log out
                 </v-btn> 
                 ):
-            </h2>
+            </h3>
         </div>
 
         <div>
