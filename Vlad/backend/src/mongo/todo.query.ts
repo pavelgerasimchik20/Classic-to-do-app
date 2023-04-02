@@ -6,10 +6,10 @@ import { MongoHelper } from "./mongo.helper";
 
 export class MongoToDoQuery {
 
-    public static async createToDo(database: Database, searchCollection: Collections, todos: string): Promise<string | undefined> {
+    public static async createToDo(database: Database, searchCollection: Collections, todos: string, email: string): Promise<string | undefined> {
         try {
             const newToDo: INewToDo = {
-                user_email: "test@gmail.com",
+                user_email: email,
                 todos: todos
             };
             const connection = await MongoHelper.establishConnection(database, searchCollection);

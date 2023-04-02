@@ -10,17 +10,22 @@
 
 <script>
     import axios from 'axios';
+    import VueCookies from 'vue-cookies';
+import { decodeCredential } from 'vue3-google-login';
 
     export default {
         data() {
             return {
-            todo: ""
+            todo: "",
+            email: decodeCredential(VueCookies.get('token')).email,
         }
         },
         methods: {
             submitForm() {
+                console.log(this.email);
                 axios.post('http://localhost:6060/add-todo',{
-                    value: this.todo
+                    value: this.todo,
+                    user_email: this.email
                 })
                 .then(response => {
                     console.log(response.data);

@@ -11,14 +11,15 @@ class ToDoController {
     async createToDo(req: Request, res: Response, next: NextFunction) {
         console.log("createToDo - started...")
         try {
-            const todos: string = req.body.value; // TODO
+            const todos: string = req.body.value;
+            const email: string = req.body.user_email;
 
             if (!todos) {
                 console.log("createToDo - todos is empty")
                 return res.status(400).json({ errorMessage: Errors.noData });
             }
 
-            const result = await MongoToDoQuery.createToDo(Database.T5Todos, Collections.Lists, todos);
+            const result = await MongoToDoQuery.createToDo(Database.T5Todos, Collections.Lists, todos, email);
             console.log("createToDo - todos created!")
             return res.status(200).json({ result });
         }

@@ -1,20 +1,24 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <ToDoList />
-    <br />
+  <img style="width: 200px" alt="to-do-list" src="https://cdn-icons-png.flaticon.com/512/4697/4697260.png">
+  <GoogleLoginComponent />
+  <h3>Theese are your list of tasks</h3>
   <AddToDo />
+  <br />
+  <ToDoList />
 </template>
 
 <script>
 import ToDoList from "./components/ToDoList.vue"
+import GoogleLoginComponent from "./components/GoogleLoginComponent.vue";
 import AddToDo from "./components/AddToDo.vue";
 
 export default {
   name: 'App',
   components: {
     ToDoList,
+    GoogleLoginComponent,
     AddToDo
-  }
+}
 }
 </script>
 
