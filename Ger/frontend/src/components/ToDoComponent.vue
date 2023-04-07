@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-container>
-      <!-- <EditDialog v-model:show="visibleDialog"></EditDialog> -->
       <h2>To-Do List</h2>
       <v-form @submit.prevent="addTodo">
         <v-text-field label="New To-Do" v-model="text" required></v-text-field>
@@ -13,16 +12,10 @@
             <v-card-text class="text-teal font-weight-medium">{{ todo.text }}</v-card-text>
             <v-card-actions>
               <div class="pa-0 text-end">
-                <v-btn class="text-none" color="teal" prepend-icon="mdi-check-circle" elevation="2" @click="showDialog">
-                <template v-slot:prepend>
-                  <v-icon color="success"></v-icon>
-                </template>
+                <v-btn class="text-none" color="teal" elevation="2" @click="showDialog(todo)">
                 Edit
               </v-btn>
-              <v-btn class="text-none" color="teal" prepend-icon="mdiCheckCircle" elevation="2" @click="removeTodo(todo._id)">
-                <template v-slot:prepend>
-                  <v-icon color="success"></v-icon>
-                </template>
+              <v-btn class="text-none" color="teal" elevation="2" @click="removeTodo(todo._id)">
                 Done
               </v-btn>
               </div>
@@ -35,50 +28,49 @@
         Todo list is empty
       </h2>
     </v-container>
+    <MyDialog v-model:show="dialogVisible">
+        <v-card>
+            <v-card-title>
+              <span class="text-h6">editing...</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="newText"
+                      label="todo description"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="teal"
+                variant="text" 
+                @click="dialogVisible = false"
+              >
+                Close
+              </v-btn>
+              <v-btn
+                color="teal"
+                variant="text"
+                @click="update"
+              >
+                Update
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+      </MyDialog>
   </v-app>
-  <MyDialog v-model:show="dialogVisible">
-      <v-card>
-          <v-card-title>
-            <span class="text-h6">editing...</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    label="todo description"
-                    required
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="teal"
-              variant="text" 
-              @click="dialogVisible = false"
-            >
-              Close
-            </v-btn>
-            <v-btn
-              color="teal"
-              variant="text"
-              @click="dialogVisible = false"
-            >
-              Save
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-    </MyDialog>
 </template>
 
 <script>
 
-//import EditDialog from '@/components/UIComponents/EditDialog.vue';
 import MyDialog from '@/components/UIComponents/MyDialog.vue'
-//import { mdiCheckCircle } from '@mdi/js';  //doesnt work
 import { decodeCredential } from 'vue3-google-login';
 import axios from 'axios';
 import VueCookies from 'vue-cookies';
@@ -91,8 +83,10 @@ export default {
     return {
       todos: [],
       text: '',
+      newText: '',
       email: '',
-      dialogVisible: false
+      dialogVisible: false,
+      id: undefined
     }
   },
   mounted() {
@@ -108,8 +102,24 @@ export default {
       });
   },
   methods: {
-    showDialog() {
+    update() {
+      axios.put(`http://localhost:6060/update/${this.id}`, { 
+        email: this.email,
+        text: this.newText
+      }) 
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+       console.log(error);
+      });
+
+      this.dialogVisible = false;
+    },
+    showDialog(todo) {
       this.dialogVisible = true;
+      this.id = todo._id;
+      this.newText = todo.text;
     },
     addTodo() {
       axios.post('http://localhost:6060/add', {
