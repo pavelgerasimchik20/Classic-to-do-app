@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { Collections, Database, Errors } from "../enum";
 import { MongoToDoQuery } from "../mongo/todo.query";
 import { INewToDo } from '../entities';
+import { verifyCredentials } from "../middlewear/token.validation";
 
 class ToDoController {
 
@@ -10,6 +11,8 @@ class ToDoController {
     async createToDo(req: Request, res: Response, next: NextFunction) {
         console.log("createToDo - started...")
         try {
+
+
             const newTask: INewToDo = req.body.taskToAdd
 
             if (!newTask) {
@@ -21,7 +24,7 @@ class ToDoController {
             console.log("createToDo - todos created!")
             return res.status(200).json({ result });
         }
-        catch (error: any){
+        catch (error: any) {
             console.log("createToDo - server error")
             return res.status(500).json({ errorMessage: Errors.callToAdmin }); //TODO ResponseHelper
         }
@@ -41,23 +44,32 @@ class ToDoController {
             console.log("createToDo - todos created!")
             return res.status(200).json({ result });
         }
-        catch (error: any){
+        catch (error: any) {
             console.log("createToDo - server error")
             return res.status(500).json({ errorMessage: Errors.callToAdmin }); //TODO ResponseHelper
         }
     }
-    
+
     async getAllToDosByUserEmail(req: Request, res: Response, next: NextFunction) {
         try {
-            const userEmail: string = req.body.email;
-
+            const token: string = req.body.token;
+            let userEmail: string | undefined = "";
+            verifyCredentials(token)
+                .then((userInfo) => {
+                    userInfo ?
+                    userEmail = userInfo.email
+                    : console.log(userInfo)
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
             const result = await MongoToDoQuery.getAllToDosByUserEmail(
-                Database.T5Todos, 
+                Database.T5Todos,
                 Collections.Dima,
                 userEmail);
-            return res.status(200).json({result})
+            return res.status(200).json({ result })
         }
-        catch (error: any){
+        catch (error: any) {
             console.log("createToDo - server error")
             return res.status(500).json({ errorMessage: Errors.callToAdmin }); //TODO ResponseHelper
         }

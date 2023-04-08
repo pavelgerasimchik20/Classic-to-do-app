@@ -1,22 +1,6 @@
 <template>
 
-    <div v-if="!email">
-        <p> SignIn to see you todo:</p>
-        <GoogleLogin :callback="callback" />
-    </div>
-
-    <div v-else>
-        <div class="my-7">
-            <h3>Hi {{ email }} ( 
-                <v-btn 
-                    size="x-small" 
-                    @click="clearEmail"
-                    >log out
-                </v-btn> 
-                ):
-            </h3>
-        </div>
-
+    <div>
         <div>
             <v-textarea
                 label="New task (write and press 'add' or 'enter')" 
@@ -26,6 +10,15 @@
                 required
                 >
             </v-textarea>
+            
+            <div >
+                <p 
+                    v-if="newTaskLength > 0 && newTaskLength < 4"
+                    class="text-h7"
+                    >
+                    minimum 3 symbols
+                </p>
+            </div>
 
             <v-progress-circular 
                 v-if="creatingTask"
@@ -82,7 +75,6 @@
 
 <script>
 import axios from 'axios';
-import { decodeCredential } from 'vue3-google-login';
 import { v4 as uuidv4 } from 'uuid';
 
 export default {
@@ -90,10 +82,17 @@ export default {
 
     data() {
         return {
-            tasks: [],
-            userData: null,
-            email: '', //TODO change to token
+            tasks: [
+                {
+                    user_email: "9792910@gmail.com",
+                    task_id: "00bd3250-89ea-4d20-bdd1-3481f5905cfa",
+                    task: "Welcome task",
+                    date_create: "Sun Apr 02 2023 11:41:43 GMT+0300 (Israel Daylight Time)"
+                }
+            ],
+            isResult: false,
             newTask: "",
+            errors: [],
             deletingTask: "",
             creatingTask: false
         }
@@ -101,10 +100,8 @@ export default {
 
     methods: {
         callback(response) {
-            this.userData = decodeCredential(response.credential);
-            this.email = this.userData.email;
-            localStorage.setItem("email", this.email)
-            this.fetchTasks(this.email);
+            localStorage.setItem("token", response.credential);
+            this.fetchTasks();
         },
 
         clearEmail() {
@@ -113,9 +110,10 @@ export default {
         },
 
         async fetchTasks() {
-            const email = this.email;
-            axios.post('http://0.0.0.0:6600/get-todos', { email })
+            const token = localStorage.getItem("token");
+            axios.post('http://0.0.0.0:6600/get-todos', { token })
                 .then(response => {
+                    this.isResult = true;
                     this.tasks = response.data.result;
                 })
                 .catch(error => {
@@ -159,12 +157,19 @@ export default {
                 });
             this.deletingTask = "";
         }
+
     },
 
     mounted() {
         this.email = localStorage.getItem("email");
         this.$emit('response', this.email)
         this.fetchTasks();
+    },
+
+    computed: {
+        newTaskLength(){
+            return this.newTask.length;
+        }
     }
 
 }
