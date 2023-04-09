@@ -114,6 +114,17 @@ export default {
         }
       });
     }
+    if (this.selectedSort == 'sort by create date'){
+      this.todos.sort((a, b) => {
+        if (a.createDate < b.createDate) {
+          return -1;
+        } else if (a.createDate > b.createDate) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    }
   }
 },
   async mounted() {
