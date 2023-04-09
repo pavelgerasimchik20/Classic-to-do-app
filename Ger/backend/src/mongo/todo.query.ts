@@ -16,7 +16,8 @@ export class MongoToDoQuery {
             const filter = { _id: myid };
             const updateDoc = {
             $set: {
-                text: newToDo.text
+                text: newToDo.text,
+                createDate: new Date().toLocaleString()
             }
         };
             const response = await connection.updateOne(filter, updateDoc);
@@ -62,7 +63,7 @@ export class MongoToDoQuery {
             const connection = await MongoHelper.establishConnection(database, searchCollection);
             const response = await connection.find(
                 { "email": userEmail },
-                { projection: { text: 1, email: 1 } }
+                { projection: { text: 1, email: 1, createDate: 1 } }
             )
                 .toArray();
 

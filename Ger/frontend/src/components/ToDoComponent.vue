@@ -1,9 +1,13 @@
 <template>
   <v-app>
     <v-container>
+      <MySelector
+        class="my-selector"
+        style="width: 250px; height: 8%; position: absolute; right: 0; top: 0; margin: 52px"
+      />
       <h2>To-Do List</h2>
       <v-form @submit.prevent="addTodo">
-        <v-text-field label="New To-Do" v-model="text" required></v-text-field>
+        <v-text-field class="input" style="width: 75%;" label="New To-Do" v-model="text" required></v-text-field>
         <v-btn type="submit" color="teal">Add</v-btn>
       </v-form>
       <v-row class="mt-4" v-if="todos.length > 0">
@@ -11,13 +15,16 @@
           <v-card>
             <v-card-text class="text-teal font-weight-medium">{{ todo.text }}</v-card-text>
             <v-card-actions>
-              <div class="pa-0 text-end">
+              <div class="pa-0 text-center">
                 <v-btn class="text-none" color="teal" elevation="2" @click="showDialog(todo)">
-                Edit
-              </v-btn>
-              <v-btn class="text-none" color="teal" elevation="2" @click="removeTodo(todo._id)">
-                Done
-              </v-btn>
+                  Edit
+                </v-btn>
+                <v-btn class="text-none" color="teal" elevation="2" @click="removeTodo(todo._id)">
+                  Done
+                </v-btn>
+                <v-label class="text-teal font-weight-light mt-3 mx-4">
+                  <small>{{ todo.createDate }}</small>
+                </v-label>
               </div>
             </v-card-actions> 
           </v-card>
@@ -71,13 +78,15 @@
 <script>
 
 import MyDialog from '@/components/UIComponents/MyDialog.vue'
+import MySelector from '@/components/UIComponents/MySelector.vue'
 import { decodeCredential } from 'vue3-google-login';
 import axios from 'axios';
 import VueCookies from 'vue-cookies';
 
 export default {
   components: {
-    MyDialog
+    MyDialog,
+    MySelector
   },
   data() {
     return {
@@ -89,7 +98,7 @@ export default {
       id: undefined
     }
   },
-  mounted() {
+  async mounted() {
       this.email = decodeCredential(VueCookies.get('token')).email
       axios.post(`http://localhost:6060/getByEmail/${this.email}`)
       .then(response => {
@@ -150,3 +159,14 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+@media (max-width: 1055px) {
+  .my-selector {
+    display: none;
+  }
+  .input {
+    width: 100% !important;
+  }
+}
+</style>

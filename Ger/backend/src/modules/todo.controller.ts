@@ -15,7 +15,8 @@ class ToDoController {
 
             const newToDo: INewToDo = {
                 email: req.body.email,
-                text: req.body.text
+                text: req.body.text,
+                createDate: new Date().toLocaleString()
             }
 
             const result = await MongoToDoQuery.updateToDo(Database.T5Todos, Collections.Ger, id, newToDo);
@@ -33,7 +34,8 @@ class ToDoController {
         try {
             const newToDo: INewToDo = {
                 email: req.body.email,
-                text: req.body.text
+                text: req.body.text,
+                createDate: new Date().toLocaleString()
             };
 
             if (!newToDo.text) {
