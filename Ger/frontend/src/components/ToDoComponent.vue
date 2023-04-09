@@ -83,6 +83,7 @@ import MySelector from '@/components/UIComponents/MySelector.vue'
 import { decodeCredential } from 'vue3-google-login';
 import axios from 'axios';
 import VueCookies from 'vue-cookies';
+import SortHelper from '@/helpers/SortHelper.js'
 
 export default {
   components: {
@@ -102,28 +103,14 @@ export default {
   },
   watch: {
   selectedSort(newValue) {
-    console.log(newValue)
-    if (this.selectedSort == 'sort by text') {
-      this.todos.sort((a, b) => {
-        if (a.text < b.text) {
-          return -1;
-        } else if (a.text > b.text) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+    if (this.selectedSort == 'by text') {
+      SortHelper.customSortByText(this.todos)
     }
-    if (this.selectedSort == 'sort by create date'){
-      this.todos.sort((a, b) => {
-        if (a.createDate < b.createDate) {
-          return -1;
-        } else if (a.createDate > b.createDate) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+    if (this.selectedSort == 'by date(old above)'){
+      SortHelper.customSortByDate(this.todos)
+    }
+    if (this.selectedSort == 'by date(new above)'){
+      SortHelper.customReverseSortByDate(this.todos)
     }
   }
 },

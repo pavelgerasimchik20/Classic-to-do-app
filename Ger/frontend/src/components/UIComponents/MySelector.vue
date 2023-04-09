@@ -3,7 +3,6 @@
         v-model="selectedType"
         class="w-1/4"
         clearable
-        chips
         label="sort by"
         :items="types"
         @change="handleTypeChange"
@@ -16,7 +15,7 @@ export default {
     name: 'MySelector',
     data(){
         return {
-            types: ['sort by text', 'sort by create date'],
+            types: ['','by text', 'by date(old above)', 'by date(new above)'],
             selectedType: null
         }
     },
