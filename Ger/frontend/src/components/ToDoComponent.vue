@@ -2,6 +2,7 @@
   <v-app>
     <v-container>
       <MySelector
+        v-model="selectedSort"
         class="my-selector"
         style="width: 250px; height: 8%; position: absolute; right: 0; top: 0; margin: 52px"
       />
@@ -95,16 +96,31 @@ export default {
       newText: '',
       email: '',
       dialogVisible: false,
-      id: undefined
+      id: undefined,
+      selectedSort: null //here will be picked sort types
     }
   },
+  watch: {
+  selectedSort(newValue) {
+    console.log(newValue)
+    if (this.selectedSort == 'sort by text') {
+      this.todos.sort((a, b) => {
+        if (a.text < b.text) {
+          return -1;
+        } else if (a.text > b.text) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    }
+  }
+},
   async mounted() {
       this.email = decodeCredential(VueCookies.get('token')).email
       axios.post(`http://localhost:6060/getByEmail/${this.email}`)
       .then(response => {
           this.todos = response.data.result;
-          console.log('todos');
-          console.log(this.todos);
       })
       .catch(error => {
           console.log(error);
