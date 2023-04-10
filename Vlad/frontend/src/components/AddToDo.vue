@@ -11,7 +11,7 @@
 <script>
     import axios from 'axios';
     import VueCookies from 'vue-cookies';
-import { decodeCredential } from 'vue3-google-login';
+    import { decodeCredential } from 'vue3-google-login';
 
     export default {
         data() {

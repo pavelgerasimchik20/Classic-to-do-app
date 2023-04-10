@@ -1,7 +1,6 @@
 <template>
   <div>
     <GoogleLogin :callback="callback" />
-    <h2>Hello, {{ email }}!</h2>
   </div>
 </template>
 
@@ -14,7 +13,6 @@ export default {
   data() {
     return {
       userdata: undefined,
-      email: "",
       token: "",
     };
   },
@@ -22,7 +20,6 @@ export default {
     callback(response) {
       this.userdata = decodeCredential(response.credential);
       
-      this.email = this.userdata.email;
       this.token = response.credential;
       VueCookies.set("token", this.token);
     },
