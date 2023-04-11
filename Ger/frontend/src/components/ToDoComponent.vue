@@ -95,7 +95,7 @@ export default {
       todos: [],
       text: '',
       newText: '',
-      email: '',
+      email: 'pavelgerasimchik20@gmail.com',
       dialogVisible: false,
       id: undefined,
       selectedSort: null //here will be picked sort types
@@ -115,7 +115,7 @@ export default {
   }
 },
   async mounted() {
-      this.email = decodeCredential(VueCookies.get('token')).email
+      //this.email = decodeCredential(VueCookies.get('token')).email
       axios.post(`http://localhost:6060/getByEmail/${this.email}`)
       .then(response => {
           this.todos = response.data.result;
@@ -125,6 +125,15 @@ export default {
       });
   },
   methods: {
+    callback(response) {
+      this.userData = decodeCredential(response.credential);
+      this.email = this.userData.email;
+      this.token = response.credential;
+      console.log(this.userData);
+      console.log(this.userData.email);
+      // saving the token in a cookies
+      VueCookies.set('token', this.token);
+    },
     update() {
       axios.put(`http://localhost:6060/update/${this.id}`, { 
         email: this.email,
