@@ -1,5 +1,6 @@
 <template>
-  <div class="app">
+  <GoogleLogin v-if="token.length < 1" :callback="myFunction"/>
+  <div v-else class="app">
       <a href="#/">Home</a> |
       <a href="#/about">About</a> |
       <a href="#/non-existent-path">...</a>
@@ -11,6 +12,8 @@
 import ToDoComponent from './components/ToDoComponent.vue'
 import About from './components/About.vue'
 import NotFound from './components/NotFound.vue'
+import VueCookies from 'vue-cookies';
+import { googleLogout } from "vue3-google-login"
 
 const routes = {
   '/': ToDoComponent,
@@ -21,11 +24,15 @@ export default {
   name: 'App',
   components: {
     ToDoComponent,
-    About
+    About,
+    NotFound
   },
   data() {
     return {
-      currentPath: window.location.hash
+      currentPath: window.location.hash,
+      token: '',
+      myFunction: this.callback,
+      response: undefined
     }
   },
   computed: {
@@ -37,6 +44,26 @@ export default {
     window.addEventListener('hashchange', () => {
 		  this.currentPath = window.location.hash
 		})
+  },
+  methods: {
+    callback(response) {
+      this.response = response
+      console.log('callback started')
+      this.innerCallback(this.response);
+      // setInterval(() => {
+      //   console.log('before logout')
+      //   googleLogout();
+      //   console.log('after logout');
+      //   console.log('new login');
+      //   this.innerCallback(this.response);
+      // }, 10000);
+    },
+    innerCallback(response) {
+      this.token = response.credential;
+      console.log(response.credential)
+      VueCookies.set('token', this.token);
+      console.log('token seted')
+    }
   }
 }
 </script>

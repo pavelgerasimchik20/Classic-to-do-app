@@ -11,8 +11,8 @@
         <v-text-field class="input" style="width: 75%;" label="New To-Do" v-model="text" required></v-text-field>
         <v-btn type="submit" color="teal">Add</v-btn>
       </v-form>
-      <v-row class="mt-4" v-if="todos.length > 0">
-        <v-col v-for="(todo, index) in todos" :key="index" cols="12" sm="6" md="4" lg="3">
+      <v-row class="mt-4" v-if="allTodos.length > 0">
+        <v-col v-for="(todo, index) in allTodos" :key="index" cols="12" sm="6" md="4" lg="3">
           <v-card>
             <v-card-text class="text-teal font-weight-medium">{{ todo.text }}</v-card-text>
             <v-card-actions>
@@ -80,22 +80,29 @@
 
 import MyDialog from '@/components/UIComponents/MyDialog.vue'
 import MySelector from '@/components/UIComponents/MySelector.vue'
-import { decodeCredential } from 'vue3-google-login';
 import axios from 'axios';
 import VueCookies from 'vue-cookies';
+import { decodeCredential } from 'vue3-google-login';
 import SortHelper from '@/helpers/SortHelper.js'
+import {mapGetters} from 'vuex'
 
 export default {
   components: {
     MyDialog,
     MySelector
   },
+  computed: mapGetters(["allTodos"])
+  // computed: {
+  //   allTodos(){
+  //     return this.$store.getters.allTodos;
+  //   }
+  // }
+  ,
   data() {
     return {
-      todos: [],
       text: '',
       newText: '',
-      email: 'pavelgerasimchik20@gmail.com',
+      email: decodeCredential(VueCookies.get('token')).email,
       dialogVisible: false,
       id: undefined,
       selectedSort: null //here will be picked sort types
@@ -115,25 +122,9 @@ export default {
   }
 },
   async mounted() {
-      //this.email = decodeCredential(VueCookies.get('token')).email
-      axios.post(`http://localhost:6060/getByEmail/${this.email}`)
-      .then(response => {
-          this.todos = response.data.result;
-      })
-      .catch(error => {
-          console.log(error);
-      });
+      this.$store.dispatch("fetchTodos"); 
   },
   methods: {
-    callback(response) {
-      this.userData = decodeCredential(response.credential);
-      this.email = this.userData.email;
-      this.token = response.credential;
-      console.log(this.userData);
-      console.log(this.userData.email);
-      // saving the token in a cookies
-      VueCookies.set('token', this.token);
-    },
     update() {
       axios.put(`http://localhost:6060/update/${this.id}`, { 
         email: this.email,

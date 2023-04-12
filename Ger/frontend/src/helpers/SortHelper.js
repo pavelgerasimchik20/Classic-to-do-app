@@ -37,7 +37,6 @@ class SortHelper {
             }
           });
     }
-
 }
 
 export default new SortHelper();
