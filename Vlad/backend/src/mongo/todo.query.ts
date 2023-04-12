@@ -25,10 +25,28 @@ export class MongoToDoQuery {
         }
     }
 
+    public static async updateToDo(database: Database, searchCollection: Collections, todos: string, id: string): Promise<string | undefined> {
+        try {
+            const objectId = new ObjectId(id);
+
+            const connection = await MongoHelper.establishConnection(database, searchCollection);
+            const response = await connection.updateOne({_id: objectId}, {$set: {todos: todos}});
+
+            if (response.modifiedCount === 1) {
+                return `Successfully updated document with ID: ${id}`;
+            } else {
+                return `No document found with ID: ${id}`;
+            }  
+        }
+        catch(error: any) {
+            return Errors.dbError; //TODO
+        }
+    }
+
     public static async deleteToDo(database: Database, searchCollection: Collections, id: string): Promise<string | undefined> {
         try {
-
             const objectId = new ObjectId(id);
+
             const connection = await MongoHelper.establishConnection(database, searchCollection);
 
             const response = await connection.deleteOne({_id: objectId});

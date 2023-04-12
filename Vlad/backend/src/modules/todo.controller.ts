@@ -29,6 +29,27 @@ class ToDoController {
         }
     }
 
+    async updateToDo(req: Request, res: Response, next: NextFunction) {
+        console.log("updateToDo - started...")
+        try {
+            const updatingTodo: string = req.params.id; // TODO
+            const todos: string = req.body.todos;
+
+            if (!todos) {
+                console.log("updateToDo - todos is empty")
+                return res.status(400).json({ errorMessage: Errors.noData });
+            }
+
+            const result = await MongoToDoQuery.updateToDo(Database.T5Todos, Collections.Lists, todos, updatingTodo);
+            console.log("updateToDo - todos updated!")
+            return res.status(200).json({ result });
+        }
+        catch (error: any){
+            console.log("createToDo - server error")
+            return res.status(500).json({ errorMessage: Errors.callToAdmin }); //TODO ResponseHelper
+        }
+    }
+
     async deleteToDo(req: Request, res: Response, next: NextFunction) {
         console.log("deleteToDo - started...")
         try {

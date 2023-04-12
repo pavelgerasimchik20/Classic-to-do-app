@@ -11,14 +11,15 @@ app.use(cors());
 
 app.post('/create-user', UserController.createUser)
 
-
 app.get('/get-todos', ToDoController.getAllToDos)
 
 app.post('/get-todos-byemail', ToDoController.getAllToDosByUserEmail)
 
 app.post('/add-todo', ToDoController.createToDo)
 
-app.delete('/delete-todo/:id', ToDoController.deleteToDo)  //TODO
+app.put('/update-todo/:id', ToDoController.updateToDo)
+
+app.delete('/delete-todo/:id', ToDoController.deleteToDo) 
 
 
 app.listen(

@@ -1,12 +1,11 @@
-<template>
+<!-- <template>
   <v-card
     v-for="(todo, index) in result"
     :key="index"
     @openTodo="openTodo"
-    class="mx-auto"
+    class="mx-auto mt-2"
     width="80%"
     color="grey"
-    style="margin-top: 10px"
   >
     <v-card-text
       style="
@@ -25,15 +24,32 @@
       >
     </v-card-text>
   </v-card>
+</template> -->
+
+<template>
+  <v-container>
+    <v-row>
+      <OneTodo
+        v-for="todo in todos"
+        :todo="todo"
+        :key="todo"
+        @openTodo="openTodo"
+      ></OneTodo>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import axios from "axios";
+import OneTodo from "../components/OneTodo";
 
 export default {
+  components: {
+    OneTodo,
+  },
   data() {
     return {
-      result: [],
+      todos: [],
       completedToDos: [],
       btnText: "I did",
       currentTodo: {},
@@ -43,7 +59,7 @@ export default {
     axios
       .get("http://localhost:6060/get-todos")
       .then((response) => {
-        this.result = response.data.result;
+        this.todos = response.data.result;
         console.log(response.data);
       })
       .catch((error) => {
@@ -58,17 +74,17 @@ export default {
         this.completedToDos.push(index);
       }
     },
-    deleteToDo(id) {
-      console.log(`deleting ${id}`);
-      axios
-        .delete(`http://localhost:6060/delete-todo/${id}`)
-        .then(() => {
-          console.log(`deleting ${id}`);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
+    // deleteToDo(id) {
+    //   console.log(`deleting ${id}`);
+    //   axios
+    //     .delete(`http://localhost:6060/delete-todo/${id}`)
+    //     .then(() => {
+    //       console.log(`deleting ${id}`);
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // },
     pressIDid(id, index) {
       this.deleteToDo(id);
       this.toggleComplete(index);
