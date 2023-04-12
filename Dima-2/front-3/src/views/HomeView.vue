@@ -1,18 +1,16 @@
 <template>
-  <HelloWorld />
+  <AddTask />
+  <TaskList />
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import AddTask from '../components/AddTask.vue'
+import TaskList from '../components/TaskList.vue'
 
-// Components
-import HelloWorld from '../components/HelloWorld.vue';
-
-export default defineComponent({
-  name: 'HomeView',
-
-  components: {
-    HelloWorld,
-  },
-});
+export default {
+    components: {
+        AddTask,
+        TaskList
+    }
+}
 </script>

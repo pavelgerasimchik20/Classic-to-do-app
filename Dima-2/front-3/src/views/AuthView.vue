@@ -1,5 +1,8 @@
 <template>
-  <div>
-    <h1>This is an AuthView page</h1>
-  </div>
+Auth
 </template>
+
+<script>
+
+
+</script>
