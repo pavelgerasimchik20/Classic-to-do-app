@@ -39,7 +39,6 @@ class ToDoController {
             };
 
             if (!newToDo.text) {
-                console.log("text is empty")
                 return res.status(400).json({ errorMessage: Errors.noData });
             }
 

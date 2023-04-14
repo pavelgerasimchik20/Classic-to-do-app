@@ -15,26 +15,26 @@ export class MongoToDoQuery {
 
             const filter = { _id: myid };
             const updateDoc = {
-            $set: {
-                text: newToDo.text,
-                createDate: new Date().toLocaleString()
-            }
-        };
+                $set: {
+                    text: newToDo.text,
+                    createDate: new Date().toLocaleString()
+                }
+            };
             const response = await connection.updateOne(filter, updateDoc);
 
         }
         catch (error: any) {
-            
+
         }
     }
 
-    public static async createToDo(database: Database, searchCollection: Collections, newToDo: INewToDo): Promise<string | undefined> {
+    public static async createToDo(database: Database, searchCollection: Collections, newToDo: INewToDo): Promise<string | any> {
         try {
             const connection = await MongoHelper.establishConnection(database, searchCollection);
             const response = await connection.insertOne(newToDo);
 
             if (response) {
-                return response.insertedId.toString();
+                return newToDo;
             }
             return
         }
