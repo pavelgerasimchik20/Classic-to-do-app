@@ -16,7 +16,7 @@
             </v-list>
     </v-card>
 </template>
-
+ 
 <script>
 import state from '../store/index' 
 import DeleteBTN from './Buttons/DeleteBTN.vue'
