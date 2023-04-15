@@ -8,15 +8,29 @@
             ></v-list-item>
         </v-list>
     </v-sheet>
+    <v-btn @click="fetchTasks">fetch</v-btn>
 </template>
 
 <script>
+import state from '../store/index' 
 
 export default {
+
+methods: {
+    async fetchTasks(){
+        state.dispatch('fetchTasks')
+    }
+},
+
 computed: {
     tasks(){
-        return this.$store.getters.allTasks
+        return state.getters.allTasks
     }
+},
+
+mounted() {
+    state.dispatch('fetchTasks')
 }
+
 }
 </script>

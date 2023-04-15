@@ -1,10 +1,10 @@
 import { createStore } from 'vuex'
 import { v4 as uuidv4 } from 'uuid'
-
+import axios from 'axios';
 
 export default createStore({
   state: {
-    // token: "",
+    email: "",
     newTask: "",
     tasks: [
         {
@@ -27,9 +27,15 @@ export default createStore({
   },
   
   mutations: {
-    newTaskValue(state, newTask) {
-        state.newTask = newTask
+    updateTasks(state, fetchedTasks){
+        state.tasks = fetchedTasks
     },
+
+    newTaskValue({commit}, state, newTaskValue) {
+        state.newTask = newTaskValue
+        commit("newTaskValue", newTaskValue)
+    },
+    
     addTask(state){
         state.tasks.push(
             {
@@ -40,20 +46,43 @@ export default createStore({
             }
         )
     },
-    clearTask(state){
+
+    clearNewTaskField(state){
         state.newTask = ""
     }
   },
 
   actions: {
+    async fetchTasks({commit}) {
+        const email = localStorage.getItem("email") //TODO email from localstorage or state ?
+        const taskList = [];
+        await axios.post('http://0.0.0.0:6600/get-todos', { email })
+            .then(response => {
+                response.data.result.forEach(item => {
+                    let itemDetails = {
+                        task_id: item.task_id,
+                        name: item.task,
+                        date_create: item.date_create
+                    }
+                    taskList.push(itemDetails);
+                });
+                commit("updateTasks", taskList);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+
     newTaskValue({commit}, task){
         commit("newTaskValue", task)
     },
+    
     addTask({commit}, task) {
         commit("addTask", task)
     },
-    clearTask({commit}) {
-        commit("clearTask")
+    
+    clearNewTaskField({commit}) {
+        commit("clearNewTaskField")
     }
   },
 

@@ -52,17 +52,9 @@ class ToDoController {
 
     async getAllToDosByUserEmail(req: Request, res: Response, next: NextFunction) {
         try {
-            const token: string = req.body.token;
-            let userEmail: string | undefined = "";
-            verifyCredentials(token)
-                .then((userInfo) => {
-                    userInfo ?
-                    userEmail = userInfo.email
-                    : console.log(userInfo)
-                })
-                .catch((error) => {
-                    console.error(error);
-                })
+            // const token: string = req.body.token;
+            let userEmail: string = req.body.email;
+
             const result = await MongoToDoQuery.getAllToDosByUserEmail(
                 Database.T5Todos,
                 Collections.Dima,

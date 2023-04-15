@@ -3,8 +3,7 @@
     <v-toolbar class="bg-amber-lighten-4 ">
         <v-toolbar-title 
             class="text-h2 text-amber-lighten-1 font-weight-black ps-8"
-            >
-            yO-yO ToDo
+            >yO-yO ToDo
         </v-toolbar-title>
         <nav class="text-h5 pe-8">
             <router-link class="text-black text-decoration-none" to="/">Home</router-link> | 

@@ -54,7 +54,7 @@ export class MongoToDoQuery {
             const connection = await MongoHelper.establishConnection(database, searchCollection);
             const response = await connection.find(
                 { "user_email": userEmail },
-                { projection: { _id: 0, task_id: 1, task: 1 } }
+                // { projection: { _id: 0, task_id: 1, task: 1, date_create: 1 } }
             )
             .sort( { "date_create": -1 } )
             .toArray();

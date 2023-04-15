@@ -4,6 +4,7 @@
             <v-text-field 
                 v-model="newTask" 
                 @change="newTaskValue"
+                autofocus
                 label="New Task"
             ></v-text-field>
             <v-btn 
@@ -16,20 +17,21 @@
 </template>
 
 <script>
+import state from '../store/index' 
 
 export default {
     methods: {
         newTaskValue(e){
-            this.$store.dispatch('newTaskValue', e.target.value)
+            state.dispatch('newTaskValue', e.target.value)
         },
         addTask(){
-            this.$store.dispatch('addTask')
-            this.$store.dispatch('clearTask')
+            state.dispatch('addTask')
+            state.dispatch('clearNewTaskField')
         }
     },
     computed: {
         newTask() {
-            return this.$store.getters.newTask
+            return state.getters.newTask
         }
     }
 }
