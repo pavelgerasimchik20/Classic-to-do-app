@@ -6,7 +6,7 @@ import { MongoHelper } from "./mongo.helper";
 
 export class MongoToDoQuery {
 
-    public static async createToDo(database: Database, searchCollection: Collections, todos: string, email: string): Promise<string | undefined> {
+    public static async createToDo(database: Database, searchCollection: Collections, todos: string, email: string): Promise<INewToDo | undefined | Errors> {
         try {
             const newToDo: INewToDo = {
                 user_email: email,
@@ -16,7 +16,7 @@ export class MongoToDoQuery {
             const response = await connection.insertOne(newToDo);
 
             if (response) {
-                return response.insertedId.toString();
+                return newToDo;
             }
             return 
         }

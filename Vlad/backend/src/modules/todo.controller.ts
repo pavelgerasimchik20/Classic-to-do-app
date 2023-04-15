@@ -33,7 +33,7 @@ class ToDoController {
         console.log("updateToDo - started...")
         try {
             const updatingTodo: string = req.params.id; // TODO
-            const todos: string = req.body.todos;
+            const todos: string = req.body.value;
 
             if (!todos) {
                 console.log("updateToDo - todos is empty")

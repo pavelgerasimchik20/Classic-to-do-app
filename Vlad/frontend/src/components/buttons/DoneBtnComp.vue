@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapActions } from 'vuex';
 
 export default {
   props: {
@@ -16,16 +16,7 @@ export default {
     },
   },
   methods: {
-    deleteTodo(id) {
-      axios
-        .delete(`http://localhost:6060/delete-todo/${id}`)
-        .then(() => {
-          console.log(`deleting ${id}`);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
+    ...mapActions(["deleteTodo"])
   },
 };
 </script>

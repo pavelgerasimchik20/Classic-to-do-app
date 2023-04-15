@@ -1,11 +1,12 @@
 <template>
   <v-col cols="4">
-    <v-card @click="openTodo">
+    <v-card>
       <v-card-title>{{ todo.todos }}</v-card-title>
       <v-card-text>
         <v-img class="mx-auto" width="200px" height="200px" :src="img" />
       </v-card-text>
-      <DoneBtnComp :todoId="todo._id" class="mb-3" />
+      <DoneBtnComp :todoId="todo._id" class="mb-3 mr-2" />
+      <v-btn color="yellow" class="mb-3 ml-2" @click="openTodo">Edit</v-btn>
     </v-card>
   </v-col>
 </template>
@@ -16,7 +17,7 @@ import DoneBtnComp from "./buttons/DoneBtnComp.vue";
 export default {
   components: {
     DoneBtnComp,
-  },
+},
   data() {
     return {
       img: "https://clickup.com/blog/wp-content/uploads/2019/01/to-do-list-apps.png",

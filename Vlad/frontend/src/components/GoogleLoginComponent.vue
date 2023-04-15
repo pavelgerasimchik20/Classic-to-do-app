@@ -1,15 +1,18 @@
 <template>
   <div>
-    <GoogleLogin :callback="callback" />
+    <GoogleLogin :callback="callback"/>
+  </div>
+  <div v-if="token != ''">
+    <v-btn 
+    @click="logout">Logout</v-btn>
   </div>
 </template>
 
 <script>
 import { decodeCredential } from "vue3-google-login";
-import VueCookies from "vue-cookies";
+//import VueCookies from "vue-cookies";
 
 export default {
-
   data() {
     return {
       userdata: undefined,
@@ -19,10 +22,12 @@ export default {
   methods: {
     callback(response) {
       this.userdata = decodeCredential(response.credential);
-      
       this.token = response.credential;
-      VueCookies.set("token", this.token);
+      localStorage.setItem("token", this.token);
     },
+    logout() {
+        localStorage.removeItem("token");
+    }
   },
 };
 </script>

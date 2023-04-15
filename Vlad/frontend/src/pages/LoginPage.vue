@@ -1,13 +1,13 @@
 <template>
-    <GoogleLoginComponent />
+  <GoogleLoginComponent />
 </template>
 
 <script>
-import GoogleLoginComponent from '@/components/GoogleLoginComponent.vue';
+import GoogleLoginComponent from "@/components/GoogleLoginComponent.vue";
 
-    export default {
-        components: {
-            GoogleLoginComponent
-        }
-    }
+export default {
+  components: {
+    GoogleLoginComponent,
+  },
+};
 </script>
