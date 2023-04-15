@@ -19,6 +19,7 @@ export default {
                 text: newObject.text
             }))
             .then(response => {
+                console.log('RETURNED >>>>> ', response.data.result);
               context.commit('addTodo', response.data.result)
             })
             .catch(error => {
@@ -26,14 +27,38 @@ export default {
             });
         },
         async removeTodo(context, id) {
-            axios.delete(`http://localhost:6060/delete/${id}`)
+            await axios.delete(`http://localhost:6060/delete/${id}`)
             .then(() => {
               context.commit('removeTodo', id)
             })
             .catch((error) => {
-              console.log(error);
+              console.log(error); 
             });
+        },
+        async updateTodo(context, updatedObject) {
+            if (updatedObject.email && updatedObject.text) { 
+                await axios.put(`http://localhost:6060/update/${updatedObject.id}`, { 
+                    email: updatedObject.email,
+                    text: updatedObject.text
+                })
+                .then(response => {
+                   console.log('RETURNED >>>>> ', response.data.result);
+                   const freshTodo = {
+                     _id: updatedObject.id,
+                     createDate: response.data.result.createDate ,      
+                     email: response.data.result.email,
+                     text: response.data.result.text
+                   }
+                   console.log('freshTodo >>>>> ', freshTodo);
+                   context.commit('refreshTodo', freshTodo )
+                })
+                .catch(error => {
+                   console.log(error);
+                });
+            }else {
+                console.log('no data')
             }
+        }
     },
     mutations: {
         addTodo(state, todo){
@@ -44,6 +69,12 @@ export default {
         },
         removeTodo(state, id){
             state.todos = state.todos.filter(todo => todo._id != id)
+        },
+        refreshTodo(state, updatedTodo) {
+            const index = state.todos.findIndex(todo => todo._id === updatedTodo._id);
+            if (index !== -1) {
+              state.todos.splice(index, 1, updatedTodo);
+            }
         }
     },
     state: {

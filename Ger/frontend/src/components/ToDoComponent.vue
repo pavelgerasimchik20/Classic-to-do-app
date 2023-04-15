@@ -80,12 +80,10 @@
 
 import MyDialog from '@/components/UIComponents/MyDialog.vue'
 import MySelector from '@/components/UIComponents/MySelector.vue'
-import axios from 'axios';
 import VueCookies from 'vue-cookies';
 import { decodeCredential } from 'vue3-google-login';
 import SortHelper from '@/helpers/SortHelper.js'
 import {mapGetters, mapActions} from 'vuex'
-import { stringLiteral } from '@babel/types';
 
 export default {
   components: {
@@ -121,7 +119,7 @@ export default {
       this.fetchTodos(this.email)
   },
   methods: {
-    ...mapActions(['fetchTodos','addTodo','removeTodo']),
+    ...mapActions(['fetchTodos','addTodo','removeTodo','updateTodo']),
     remove(id){
       this.removeTodo(id);
     },
@@ -133,16 +131,12 @@ export default {
       this.text = ''
     },
     update() {
-      axios.put(`http://localhost:6060/update/${this.id}`, { 
+      const freshObject = {
+        id: this.id,
         email: this.email,
         text: this.newText
-      }) 
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-       console.log(error);
-      });
+      }
+      this.updateTodo(freshObject);
       this.dialogVisible = false;
     },
     showDialog(todo) {

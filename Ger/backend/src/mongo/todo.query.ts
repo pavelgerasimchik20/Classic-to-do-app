@@ -6,11 +6,10 @@ import { MongoHelper } from "./mongo.helper";
 
 export class MongoToDoQuery {
 
-    public static async updateToDo(database: Database, searchCollection: Collections, id: string, newToDo: INewToDo) {
+    public static async updateToDo(database: Database, searchCollection: Collections, id: string, newToDo: INewToDo): Promise <string | any> {
         try {
 
             const connection = await MongoHelper.establishConnection(database, searchCollection);
-
             const myid: ObjectId = new ObjectId(id);
 
             const filter = { _id: myid };
@@ -20,11 +19,11 @@ export class MongoToDoQuery {
                     createDate: new Date().toLocaleString()
                 }
             };
-            const response = await connection.updateOne(filter, updateDoc);
-
+            await connection.updateOne(filter, updateDoc);
+            return newToDo
         }
         catch (error: any) {
-
+            return Errors.dbError
         }
     }
 
