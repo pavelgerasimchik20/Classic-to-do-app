@@ -2,8 +2,7 @@
     <v-sheet width="300" class="mx-auto my-5">
         <v-form>
             <v-text-field 
-                v-model="newTask" 
-                @change="newTaskValue"
+                v-model="newTaskValue"
                 autofocus
                 label="New Task"
             ></v-text-field>
@@ -20,19 +19,21 @@
 import state from '../store/index' 
 
 export default {
-    methods: {
-        newTaskValue(e){
-            state.dispatch('newTaskValue', e.target.value)
-        },
-        addTask(){
-            state.dispatch('addTask')
-            state.dispatch('clearNewTaskField')
+    data(){
+        return {
+            newTaskValue: ""
         }
     },
-    computed: {
-        newTask() {
-            return state.getters.newTask
+    methods: {
+        // newTaskValue(e){
+        //     state.comit('newTaskValue', e.target.value)
+        // },
+        async addTask(){
+            await state.dispatch('addTask', this.newTaskValue)
+            // state.dispatch('clearNewTaskField')
+            state.dispatch('fetchTasks')
         }
     }
+    
 }
 </script>

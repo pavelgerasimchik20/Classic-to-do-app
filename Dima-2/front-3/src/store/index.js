@@ -5,7 +5,6 @@ import axios from 'axios';
 export default createStore({
   state: {
     email: "",
-    newTask: "",
     tasks: [
         {
             user_email: "9792910@gmail.com",
@@ -23,36 +22,12 @@ export default createStore({
   },
 
   getters: {
-    allTasks: (state) => state.tasks
-  },
-  
-  mutations: {
-    updateTasks(state, fetchedTasks){
-        state.tasks = fetchedTasks
-    },
-
-    newTaskValue({commit}, state, newTaskValue) {
-        state.newTask = newTaskValue
-        commit("newTaskValue", newTaskValue)
-    },
-    
-    addTask(state){
-        state.tasks.push(
-            {
-                user_email: "9792910@gmail.com",
-                task_id: uuidv4(),
-                name: state.newTask,
-                date_create: Date().toString()
-            }
-        )
-    },
-
-    clearNewTaskField(state){
-        state.newTask = ""
-    }
+    allTasks: (state) => state.tasks,
+    // currentNewTaskValue: (state) => state.newTask
   },
 
   actions: {
+
     async fetchTasks({commit}) {
         const email = localStorage.getItem("email") //TODO email from localstorage or state ?
         const taskList = [];
@@ -72,18 +47,36 @@ export default createStore({
                 console.log(error);
             });
     },
-
-    newTaskValue({commit}, task){
-        commit("newTaskValue", task)
-    },
     
-    addTask({commit}, task) {
-        commit("addTask", task)
+    async addTask(state, newTaskValue) {
+            const taskToAdd = {
+                user_email: localStorage.getItem("email"),
+                task_id: uuidv4(),
+                task: newTaskValue,
+                date_create: Date().toString()
+            }
+            await axios.post('http://0.0.0.0:6600/add-todo', { taskToAdd })
+                .then(response => {
+                    if (response.data.result == "task was added") {
+                        state.newTask = "";
+                    }
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
     },
     
     clearNewTaskField({commit}) {
         commit("clearNewTaskField")
     }
+  },
+  
+  mutations: {
+
+    updateTasks(state, fetchedTasks){
+        state.tasks = fetchedTasks
+    },
   },
 
   modules: {

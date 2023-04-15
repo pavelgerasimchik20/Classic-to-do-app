@@ -8,7 +8,6 @@
             ></v-list-item>
         </v-list>
     </v-sheet>
-    <v-btn @click="fetchTasks">fetch</v-btn>
 </template>
 
 <script>
