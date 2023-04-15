@@ -47,7 +47,7 @@ export default createStore({
             });
     },
     
-    async addTask(newItem) {
+    async addTask(state, newItem) {
             console.log(newItem)
 
             const taskToAdd = {
@@ -58,7 +58,7 @@ export default createStore({
             }
             await axios.post('http://0.0.0.0:6600/add-todo', { taskToAdd })
                 .then(response => {
-                    console.log(response);
+                    console.log(state, response);
                 })
                 .catch(error => {
                     console.log(error);
