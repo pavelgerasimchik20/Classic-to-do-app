@@ -15,12 +15,6 @@ import state from '../store/index'
 
 export default {
 
-methods: {
-    async fetchTasks(){
-        state.dispatch('fetchTasks')
-    }
-},
-
 computed: {
     tasks(){
         return state.getters.allTasks

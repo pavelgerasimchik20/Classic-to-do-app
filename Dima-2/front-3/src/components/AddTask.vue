@@ -19,18 +19,12 @@
 import state from '../store/index' 
 
 export default {
-    data(){
-        return {
-            newTaskValue: ""
-        }
-    },
+    data: () => ({
+        newTaskValue: ''
+    }),
     methods: {
-        // newTaskValue(e){
-        //     state.comit('newTaskValue', e.target.value)
-        // },
         async addTask(){
             await state.dispatch('addTask', this.newTaskValue)
-            // state.dispatch('clearNewTaskField')
             state.dispatch('fetchTasks')
         }
     }

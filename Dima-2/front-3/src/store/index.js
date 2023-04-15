@@ -22,8 +22,7 @@ export default createStore({
   },
 
   getters: {
-    allTasks: (state) => state.tasks,
-    // currentNewTaskValue: (state) => state.newTask
+    allTasks: (state) => state.tasks
   },
 
   actions: {
@@ -34,12 +33,12 @@ export default createStore({
         await axios.post('http://0.0.0.0:6600/get-todos', { email })
             .then(response => {
                 response.data.result.forEach(item => {
-                    let itemDetails = {
+                    let taskDetails = {
                         task_id: item.task_id,
                         name: item.task,
                         date_create: item.date_create
                     }
-                    taskList.push(itemDetails);
+                    taskList.push(taskDetails);
                 });
                 commit("updateTasks", taskList);
             })
@@ -48,18 +47,17 @@ export default createStore({
             });
     },
     
-    async addTask(state, newTaskValue) {
+    async addTask(newItem) {
+            console.log(newItem)
+
             const taskToAdd = {
                 user_email: localStorage.getItem("email"),
                 task_id: uuidv4(),
-                task: newTaskValue,
+                task: newItem,
                 date_create: Date().toString()
             }
             await axios.post('http://0.0.0.0:6600/add-todo', { taskToAdd })
                 .then(response => {
-                    if (response.data.result == "task was added") {
-                        state.newTask = "";
-                    }
                     console.log(response);
                 })
                 .catch(error => {
