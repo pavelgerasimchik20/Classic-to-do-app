@@ -1,31 +1,35 @@
 <template>
     <v-sheet width="300" class="mx-auto my-5">
         <v-form>
-            <v-text-field 
+            <v-textarea 
                 v-model="newTaskValue"
                 autofocus
                 label="New Task"
-            ></v-text-field>
-            <v-btn 
-                block 
-                class="mt-2"
-                @click="addTask"
-            >Submit</v-btn>
+                @keyup.enter="addTask"
+            ></v-textarea>
+            <SubmitBTN @submit="addTask" title="ADD"/>
         </v-form>
     </v-sheet>
 </template>
 
 <script>
 import state from '../store/index' 
+import SubmitBTN from '../components/Buttons/SubmitBTN.vue' 
 
 export default {
+    components: {
+        SubmitBTN
+    },
+
     data: () => ({
         newTaskValue: ''
     }),
+
     methods: {
         async addTask(){
             await state.dispatch('addTask', this.newTaskValue)
             state.dispatch('fetchTasks')
+            this.newTaskValue = ''
         }
     }
     

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { Collections, Database, Errors } from "../enum";
 import { MongoToDoQuery } from "../mongo/todo.query";
-import { INewToDo } from '../entities';
+import { INewToDo, IUpdatingTask } from '../entities';
 import { verifyCredentials } from "../middlewear/token.validation";
 
 class ToDoController {
@@ -11,8 +11,6 @@ class ToDoController {
     async createToDo(req: Request, res: Response, next: NextFunction) {
         console.log("createToDo - started...")
         try {
-
-
             const newTask: INewToDo = req.body.taskToAdd
 
             if (!newTask) {
@@ -30,6 +28,27 @@ class ToDoController {
         }
     }
 
+    async changeToDo(req: Request, res: Response, next: NextFunction) {
+        console.log("changeToDo - started...")
+        try {
+            const updatingTask: IUpdatingTask = {
+                task_id: req.body.taskToUpdate.task_id,
+                task: req.body.taskToUpdate.task
+            }
+            if (!updatingTask) {
+                console.log("createToDo - task is empty")
+                return res.status(400).json({ errorMessage: Errors.noData });
+            }
+
+            const result = await MongoToDoQuery.changeToDo(Database.T5Todos, Collections.Dima, updatingTask);
+            console.log("createToDo - todos created!")
+            return res.status(200).json({ result });
+        }
+        catch (error: any) {
+            console.log("createToDo - server error")
+            return res.status(500).json({ errorMessage: Errors.callToAdmin }); //TODO ResponseHelper
+        }
+    }
     async deleteToDo(req: Request, res: Response, next: NextFunction) {
         console.log("createToDo - started...")
         try {

@@ -10,6 +10,7 @@ app.use(cors());
 
 app.post('/get-todos', ToDoController.getAllToDosByUserEmail)
 app.post('/add-todo', ToDoController.createToDo)
+app.post('/change-todo', ToDoController.changeToDo)
 app.post('/delete-todo', ToDoController.deleteToDo)
 
 app.listen(

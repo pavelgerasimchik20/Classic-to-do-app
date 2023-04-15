@@ -65,6 +65,32 @@ export default createStore({
                 });
     },
     
+    async changeTask(state, updatingTask) {
+            console.log("changeTask: ", updatingTask)
+
+            const taskToUpdate = {
+                task_id: updatingTask.id,
+                task: updatingTask.text
+            }
+            await axios.post('http://0.0.0.0:6600/change-todo', { taskToUpdate })
+                .then(response => {
+                    console.log(state, response);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+    },
+
+    async deleteTask(state, taskId) {
+        await axios.post('http://0.0.0.0:6600/delete-todo', { taskId })
+            .then(response => {
+                console.log(state, response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+    
     clearNewTaskField({commit}) {
         commit("clearNewTaskField")
     }
