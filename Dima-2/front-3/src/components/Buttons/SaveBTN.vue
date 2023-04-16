@@ -4,6 +4,7 @@
         >
         <v-btn 
             icon="mdi-content-save-outline" 
+            color="grey-darken-2"
             :class="{ 'on-hover': isHovering }"
             v-bind="props"
             @click="$emit('save-task')"

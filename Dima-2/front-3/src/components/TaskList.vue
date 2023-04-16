@@ -1,11 +1,15 @@
 <template>
+    <v-progress-linear v-if="isRefresh"
+      indeterminate
+    ></v-progress-linear>
     <v-card
+        v-else
         class="mx-auto"
         >
             <v-list lines="one">
                 <div v-for="item in tasks" :key="item.task_id" >
                     <div class="task__details">
-                        <div 
+                        <div
                             v-if="item.task_id != editing.id"
                             >{{ item.name }}</div>
                         <v-text-field 
@@ -44,7 +48,7 @@ components: {
 data: () => ({
         editing: {
             id: '',
-            text: ''
+            text: '',
         }
 }), 
 
@@ -76,6 +80,9 @@ methods: {
 computed: {
     tasks(){
         return state.getters.allTasks
+    },
+    isRefresh(){
+        return state.getters.isRefreshStatus
     }
 },
 

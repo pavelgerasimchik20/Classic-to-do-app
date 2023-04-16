@@ -6,15 +6,18 @@ export default createStore({
   state: {
     email: "",
     tasks: [],
+    isRefresh: false
   },
 
   getters: {
+    isRefreshStatus: (state) => state.isRefresh,
     allTasks: (state) => state.tasks
   },
 
   actions: {
 
     async fetchTasks({commit}) {
+        commit("updateIsRefresh", true);
         const email = localStorage.getItem("email") //TODO email from localstorage or state ?
         const taskList = [];
         await axios.post('http://0.0.0.0:6600/get-todos', { email })
@@ -28,15 +31,16 @@ export default createStore({
                     taskList.push(taskDetails);
                 });
                 commit("updateTasks", taskList);
+                commit("updateIsRefresh", false);
             })
             .catch(error => {
                 console.log(error);
+                commit("updateIsRefresh", false);
             });
     },
     
-    async addTask(state, newItem) {
-            console.log(newItem)
-
+    async addTask({commit}, newItem) {
+            commit("updateIsRefresh", true);
             const taskToAdd = {
                 user_email: localStorage.getItem("email"),
                 task_id: uuidv4(),
@@ -45,10 +49,12 @@ export default createStore({
             }
             await axios.post('http://0.0.0.0:6600/add-todo', { taskToAdd })
                 .then(response => {
-                    console.log(state, response);
+                    console.log(response);
+                    commit("updateIsRefresh", false);
                 })
                 .catch(error => {
                     console.log(error);
+                    commit("updateIsRefresh", false);
                 });
     },
     
@@ -88,6 +94,9 @@ export default createStore({
     updateTasks(state, fetchedTasks){
         state.tasks = fetchedTasks
     },
+    updateIsRefresh(state, statusIsRefresh){
+        state.isRefresh = statusIsRefresh
+    }
   },
 
   modules: {
