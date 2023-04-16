@@ -40,6 +40,27 @@ export default {
             console.error(error);
           });
       },
+      async updateTodo({commit}, todo) {
+        console.log("text = " + todo.id)
+        console.log("text = " + todo.text)
+        await axios
+        .put(`http://localhost:6060/update-todo/${todo.id}`, {
+            value: todo.text
+        })
+        .then((response) => {
+            commit("updateTodo", {
+                _id: todo.id,
+                todos: response.data.result,
+                user_email: todo.user_email
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+      },
+      closeDialog({commit}) {
+        commit("setDialogVisible", false);
+      }
   },
   mutations: {
     updateTodos(state, todos) {
@@ -50,6 +71,16 @@ export default {
     },
     deleteTodo(state, id) {
         state.todos = state.todos.filter(todo => todo._id != id)
+    },
+    updateTodo(state, todo){
+        const index = state.todos.findIndex(item => item._id === todo._id)
+
+        if(index !== -1){
+            state.todos[index] = todo
+        }
+    },
+    setDialogVisible (state) {
+        state.dialogVisible = false;
     }
   },
   state: {

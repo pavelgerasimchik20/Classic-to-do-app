@@ -5,7 +5,7 @@
       <v-card-text>
         <v-img :src="img" />
       </v-card-text>
-      <EditForm :todo="todo" />
+      <EditForm :todo="todo" :dialogVisible="dialogVisible" @close-dialog="closeDialog"/>
     </v-card>
   </v-dialog>
 </template>
@@ -28,6 +28,7 @@ export default {
     this.dialogVisible = this.value;
   },
   data: () => ({
+    text: null,
     dialogVisible: false,
     img: "https://clickup.com/blog/wp-content/uploads/2019/01/to-do-list-apps.png",
   }),
@@ -38,7 +39,15 @@ export default {
     dialogVisible(newValue) {
       this.$emit("input", newValue);
     },
+    dialogVisibleFalse(){
+        this.$emit('update:dialogVisible', false)
+    }
   },
   components: { EditForm },
+  methods: {
+    closeDialog(value) {
+        this.$emit('close-dialog', value);
+    }
+  }
 };
 </script>

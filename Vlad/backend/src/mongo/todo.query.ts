@@ -33,7 +33,7 @@ export class MongoToDoQuery {
             const response = await connection.updateOne({_id: objectId}, {$set: {todos: todos}});
 
             if (response.modifiedCount === 1) {
-                return `Successfully updated document with ID: ${id}`;
+                return todos;
             } else {
                 return `No document found with ID: ${id}`;
             }  

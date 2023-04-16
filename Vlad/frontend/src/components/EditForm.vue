@@ -11,7 +11,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import { decodeCredential } from "vue3-google-login";
+import { mapActions } from "vuex";
 
 export default {
   props: {
@@ -19,6 +20,10 @@ export default {
       type: Object,
       required: true,
     },
+    dialogVisible: {
+        type: Boolean,
+        required: true
+    }
   },
   data() {
     return {
@@ -26,22 +31,23 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["updateTodo"]),
+    onUpdate() {
+        this.closeDialog();
+    },
     submitForm(id) {
-      axios
-        .put(`http://localhost:6060/update-todo/${id}`, {
-          value: this.todos,
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.todos = "";
-        })
-        .catch((error) => {
-          console.log(error);
+        this.updateTodo({
+            id: id,
+            text: this.todos,
+            user_email: decodeCredential(localStorage.getItem("token")).email,
         });
+        this.$emit('close-dialog', false);
+        this.clearInput();
     },
     clearInput() {
-      this.todos = "";
-    },
-  },
+        this.todos = "";
+    }
+    
+}
 };
 </script>

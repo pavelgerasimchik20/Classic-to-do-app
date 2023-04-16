@@ -9,15 +9,15 @@
       ></OneTodo>
     </v-row>
     <DialogTodo
+      :visible="dialogVisible"
+      @close-dialog="closeDialog"
       :todo="currentTodo"
-      :dialog-visible="dialogVisible"
       v-model="dialogVisible"
     />
   </v-container>
 </template>
 
 <script>
-// import axios from "axios";
 import OneTodo from "../components/OneTodo";
 import DialogTodo from "./DialogTodo.vue";
 import { mapGetters, mapActions } from "vuex";
@@ -29,9 +29,6 @@ export default {
   },
   computed: {
     ...mapGetters(["allTodos"]),
-    // objects() {
-    //   return this.allTodos;
-    // },
   },
   data() {
     return {
@@ -48,6 +45,9 @@ export default {
       this.currentTodo = todo;
       this.dialogVisible = true;
     },
+    closeDialog(value){
+        this.dialogVisible = value;
+    }
   },
 };
 </script>
