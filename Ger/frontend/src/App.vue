@@ -1,14 +1,31 @@
 <template>
-  <GoogleLogin v-if="token.length < 1" :callback="myFunction"/>
-  <div v-else class="app">
-      <a href="#/">Home</a> |
-      <a href="#/about">About</a> |
-      <a href="#/non-existent-path">...</a>
-      <component :is="currentView" />
-  </div>
+<div>
+  <GoogleLogin class="mt-12" v-if="token.length < 1" :callback="myFunction"/>
+  <v-app v-else>
+    <v-toolbar
+      prominent
+      image="https://digitalya.co/blog/wp-content/uploads/2022/08/vue-js-methods-demistified@3x-8.png"
+      class="mx-auto mt-5 ">
+      <v-toolbar-items class="ml-8">
+        <v-btn variant="tonal" color="teal" href="#/">Home</v-btn>
+        <v-btn variant="tonal" color="teal" href="#/about">About</v-btn>
+        <v-btn variant="tonal" color="teal" href="#/non-existent-path">...</v-btn>
+      </v-toolbar-items>
+      <div class="flex-grow-1 text-right">
+        <v-btn 
+        @click="logout"
+        icon>
+          <v-icon>mdi-exit-run</v-icon>
+        </v-btn>
+      </div>
+    </v-toolbar>
+    <component class="mt-6" :is="currentView" />
+  </v-app>
+</div>
 </template>
 
 <script>
+import '@mdi/font/css/materialdesignicons.css';
 import ToDoComponent from './components/ToDoComponent.vue'
 import About from './components/About.vue'
 import NotFound from './components/NotFound.vue'
@@ -46,6 +63,13 @@ export default {
 		})
   },
   methods: {
+    logout(){
+      console.log('b4 logout')
+      googleLogout();
+      VueCookies.set('token', '');
+      this.token = '';
+      console.log('after logout')
+    },
     callback(response) {
       this.response = response
       console.log('callback started')
