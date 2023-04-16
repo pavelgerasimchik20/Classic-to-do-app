@@ -1,4 +1,4 @@
-import { INewToDo } from "../entities";
+import { INewToDo, IUpdatingTask } from "../entities";
 import { Collections, Database, Errors } from "../enum";
 import { MongoHelper } from "./mongo.helper";
 
@@ -24,7 +24,29 @@ export class MongoToDoQuery {
             return response.acknowledged == true ? "task was added": "task was not added" ;
         }
         catch (error: any) {
-            console.log("getAllToDosByUserEmail error!");
+            console.log("createToDo error!");
+            return Errors.dbError;
+        }
+    }
+
+    public static async changeToDo(database: Database, searchCollection: Collections, updatingTask: IUpdatingTask): Promise<string | undefined> {
+        try {
+            const connection = await MongoHelper.establishConnection(database, searchCollection);
+            const response = await connection.updateOne(
+                    { task_id: updatingTask.task_id },
+                    { $set: { task: updatingTask.task } }
+                );
+
+            if (!response) {
+                console.log("changeToDo querry error!");
+                return undefined; //TODO 
+            }
+
+            console.log("changeToDo succesfull!");
+            return response.acknowledged == true ? "deleted" : "not found" ;
+        }
+        catch (error: any) {
+            console.log("changeToDo error!");
             return Errors.dbError;
         }
     }
@@ -44,7 +66,7 @@ export class MongoToDoQuery {
             return response.deletedCount == 1 ? "deleted" : "not found" ;
         }
         catch (error: any) {
-            console.log("getAllToDosByUserEmail error!");
+            console.log("deleteToDo error!");
             return Errors.dbError;
         }
     }
@@ -54,7 +76,7 @@ export class MongoToDoQuery {
             const connection = await MongoHelper.establishConnection(database, searchCollection);
             const response = await connection.find(
                 { "user_email": userEmail },
-                { projection: { _id: 0, task_id: 1, task: 1 } }
+                // { projection: { _id: 0, task_id: 1, task: 1, date_create: 1 } }
             )
             .sort( { "date_create": -1 } )
             .toArray();
