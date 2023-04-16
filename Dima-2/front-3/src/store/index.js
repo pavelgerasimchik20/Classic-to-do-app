@@ -5,20 +5,7 @@ import axios from 'axios';
 export default createStore({
   state: {
     email: "",
-    tasks: [
-        {
-            user_email: "9792910@gmail.com",
-            task_id: "00bd3250-89ea-4d20-bdd1-3481f5905cfa",
-            name: "Hello task",
-            date_create: "Sun Apr 02 2023 11:41:43 GMT+0300 (Israel Daylight Time)"
-        },
-        {
-            user_email: "9792910@gmail.com",
-            task_id: "00bd3250-89ea-4d20-bdd1-3481f5905cfs",
-            name: "Bye bye task",
-            date_create: "Sun Apr 02 2023 11:41:45 GMT+0300 (Israel Daylight Time)"
-        },
-    ],
+    tasks: [],
   },
 
   getters: {

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import AuthView from '../views/AuthView.vue'
+// import AuthView from '../views/AuthView.vue'
 
 const routes = [
   {
@@ -8,11 +8,12 @@ const routes = [
     name: 'home', // ToDos list
     component: HomeView
   },
+//   {
+//     path: '/auth',
+//     name: 'auth', // ToDos list
+//     component: AuthView
+//   },  
   {
-    path: '/auth',
-    name: 'auth', // ToDos list
-    component: AuthView
-  },  {
     path: '/about',
     name: 'about',
     // route level code-splitting

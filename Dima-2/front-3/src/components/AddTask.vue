@@ -1,12 +1,12 @@
 <template>
     <v-sheet width="300" class="mx-auto my-5">
         <v-form>
-            <v-textarea 
+            <v-text-field
                 v-model="newTaskValue"
                 autofocus
                 label="New Task"
                 @keyup.enter="addTask"
-            ></v-textarea>
+            ></v-text-field>
             <SubmitBTN @submit="addTask" title="ADD"/>
         </v-form>
     </v-sheet>

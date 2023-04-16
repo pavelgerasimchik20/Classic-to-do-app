@@ -7,7 +7,7 @@
         </v-toolbar-title>
         <nav class="text-h5 pe-8">
             <router-link class="text-black text-decoration-none" to="/">Home</router-link> | 
-            <router-link class="text-black text-decoration-none" to="/auth">Auth</router-link> | 
+            <!-- <router-link class="text-black text-decoration-none" to="/auth">Auth</router-link> |  -->
             <router-link class="text-black text-decoration-none" to="/about">About</router-link>
         </nav>
     </v-toolbar>
