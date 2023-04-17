@@ -26,7 +26,7 @@
 
 <script>
 import '@mdi/font/css/materialdesignicons.css';
-import ToDoComponent from './components/pages/ToDoComponent.vue'
+import ToDoComponent from './components/pages/ToDoPage.vue'
 import About from './components/pages/About.vue'
 import NotFound from './components/pages/NotFound.vue'
 import VueCookies from 'vue-cookies';
