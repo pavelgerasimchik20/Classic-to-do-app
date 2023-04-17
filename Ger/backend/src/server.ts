@@ -1,19 +1,26 @@
-import express, { Request, Response } from 'express';
+import express,{ Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { StaticEnvironment } from './core/environment.static';
 import UserController from './modules/user.controller'
 import ToDoController from './modules/todo.controller'
+const jwt = require('jsonwebtoken');
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+
 app.post('/create-user', UserController.createUser)
 
 app.get('/getAll', ToDoController.getAllToDos)
 
-app.post('/getByEmail/:email', ToDoController.getToDosByEmail)
+app.post('/getByEmail/:email', ToDoController.getToDosByEmail);
 
 app.post('/add', ToDoController.addToDo)
 

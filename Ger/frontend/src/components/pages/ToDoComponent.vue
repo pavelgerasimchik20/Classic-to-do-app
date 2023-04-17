@@ -7,11 +7,8 @@
         style="width: 250px; height: 8%; position: absolute; right: 0; top: 0; margin: 52px"
       />
       <h2>To-Do List</h2>
-      <div>
-        <v-text-field class="input" style="width: 75%;" label="New To-Do" v-model="text" required></v-text-field>
-        <v-btn @click="add" color="teal">Add</v-btn>
-      </div>
-      <v-row class="mt-4" v-if="allTodos.length > 0">
+      <AddForm @add="addNewTodo"/>
+      <v-row class="mt-4"  v-if="allTodos.length > 0">
         <v-col v-for="(todo, index) in allTodos" :key="index" cols="12" sm="6" md="4" lg="3">
           <v-card>
             <v-card-text class="text-teal font-weight-medium">{{ todo.text }}</v-card-text>
@@ -79,6 +76,7 @@
 <script>
 
 import MyDialog from '@/components/UIComponents/MyDialog.vue'
+import AddForm from '@/components/AddForm.vue'
 import MySelector from '@/components/UIComponents/MySelector.vue'
 import VueCookies from 'vue-cookies';
 import { decodeCredential } from 'vue3-google-login';
@@ -88,13 +86,12 @@ import {mapGetters, mapActions} from 'vuex'
 export default {
   components: {
     MyDialog,
-    MySelector
+    MySelector,
+    AddForm
   },
-  computed: mapGetters(["allTodos","activeTodos"])
-  ,
+  computed: mapGetters(["allTodos","activeTodos"]),
   data() {
     return {
-      text: '',
       newText: '',
       email: decodeCredential(VueCookies.get('token')).email,
       dialogVisible: false,
@@ -123,10 +120,11 @@ export default {
     remove(id){
       this.removeTodo(id);
     },
-    add(){
+    addNewTodo(text){
+      console.log("add method in a parent received ... " + text)
       this.addTodo({
-        email: this.email,
-        text: this.text
+        email: this.email,  
+        text: text
       });
       this.text = ''
     },

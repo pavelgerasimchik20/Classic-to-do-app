@@ -1,7 +1,7 @@
 <template>
 <div>
   <GoogleLogin class="mt-12" v-if="token.length < 1" :callback="myFunction"/>
-  <v-app v-else>
+  <v-app>
     <v-toolbar
       prominent
       image="https://digitalya.co/blog/wp-content/uploads/2022/08/vue-js-methods-demistified@3x-8.png"
@@ -26,9 +26,9 @@
 
 <script>
 import '@mdi/font/css/materialdesignicons.css';
-import ToDoComponent from './components/ToDoComponent.vue'
-import About from './components/About.vue'
-import NotFound from './components/NotFound.vue'
+import ToDoComponent from './components/pages/ToDoComponent.vue'
+import About from './components/pages/About.vue'
+import NotFound from './components/pages/NotFound.vue'
 import VueCookies from 'vue-cookies';
 import { googleLogout } from "vue3-google-login"
 
