@@ -146,8 +146,9 @@ export default createStore({
         commit("updateToken", token)
         commit("updateIsAuth", true)
     },
-    logOut() {
-
+    logOut({commit}) {
+        commit("updateToken", "")
+        commit("updateIsAuth", false)
         localStorage.removeItem("token")
     }
 

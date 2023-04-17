@@ -7,18 +7,18 @@
                 label="New Task"
                 @keyup.enter="addTask"
             ></v-text-field>
-            <SubmitBTN @submit="addTask" title="ADD"/>
+            <UniversalBTN @event="addTask" title="ADD"/>
         </v-form>
     </v-sheet>
 </template>
 
 <script>
 import state from '../store/index' 
-import SubmitBTN from '../components/Buttons/SubmitBTN.vue' 
+import UniversalBTN from './Buttons/UniversalBTN.vue' 
 
 export default {
     components: {
-        SubmitBTN
+        UniversalBTN
     },
 
     data: () => ({
