@@ -3,8 +3,13 @@ import axios from "axios";
 export default {
   actions: {
     async fetchTodos({ commit }) {
-      await axios
-        .get("http://localhost:6060/get-todos")
+        const token = localStorage.getItem("token");
+        await axios
+        .get("http://localhost:6060/get-todos", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        })
         .then((response) => {
           const todos = response.data.result;
           console.log(todos);

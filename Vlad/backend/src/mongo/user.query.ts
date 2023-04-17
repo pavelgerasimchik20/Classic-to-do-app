@@ -43,7 +43,7 @@ export class MongoUserQuery {
             }
 
             if(await user.password === existingUser.password) {
-                const token = generateToken(user.email, user.password);
+                const token = generateToken(user.email);
                 return token.toString();
             } else {
                 return "password or email it not correct"
