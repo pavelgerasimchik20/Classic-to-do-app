@@ -9,7 +9,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.post('/create-user', UserController.createUser)
+app.post('/register', UserController.register)
+
+app.post('/login', UserController.login)
 
 app.get('/get-todos', ToDoController.getAllToDos)
 

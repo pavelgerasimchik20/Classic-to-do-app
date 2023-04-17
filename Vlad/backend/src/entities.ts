@@ -1,6 +1,11 @@
 export interface INewUser {
     email: string,
-    date_create: string
+    password: string,
+    comparePassword?(password: string): Promise<boolean>
+};
+
+export interface IRole {
+    role: string
 };
 export interface INewToDo {
     user_email: string,
@@ -9,7 +14,15 @@ export interface INewToDo {
 export interface IUserTodos {
     todos: Array<Todo>
 };
-interface Todo {
+export interface Todo {
     id: string,
     name: string
 };
+
+export interface Database {
+    mongoose: any;
+    user: any;
+    role: any;
+    ROLES: string[];
+  }
+  

@@ -10,14 +10,5 @@
 </template>
 
 <script>
-//import { decodeCredential } from "vue3-google-login";
-//import VueCookies from "vue-cookies";
 
-// export default {
-//   data() {
-//     return {
-//       token: decodeCredential(localStorage.getItem("token")),
-//     };
-//   },
-// };
 </script>

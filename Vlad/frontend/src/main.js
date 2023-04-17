@@ -15,8 +15,6 @@ import MainPage from '@/pages/MainPage'
 import ToDoPage from '@/pages/ToDoPage'
 import LoginPage from '@/pages/LoginPage'
 
-// import VueCookies from "vue-cookies";
-
 const routes = [
     {
         path: '/',

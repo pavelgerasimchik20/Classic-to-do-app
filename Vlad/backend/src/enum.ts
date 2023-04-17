@@ -3,7 +3,7 @@ export enum Database {
 }
 
 export enum Collections {
-    Users = "Users",
+    Users = "VladUsers",
     Lists = "VladList"
 }
 
