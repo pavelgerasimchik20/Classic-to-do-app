@@ -6,28 +6,32 @@
         v-else
         class="mx-auto"
         >
-            <v-list lines="one">
-                <div v-for="item in tasks" :key="item.task_id" >
-                    <div class="task__details">
-                        <div
-                            v-if="item.task_id != editing.id"
-                            >{{ item.name }}</div>
-                        <v-text-field 
-                            v-else
-                            class="edit_task" 
-                            v-model = editing.text autofocus
-                            ></v-text-field>
-                        <EditBTN 
-                            v-if="item.task_id != editing.id" 
-                            @edit-task="editTask(item.task_id, item.name)" />
-                        <SaveBTN 
-                            v-else 
-                            @save-task="saveTask(item.name)" />
-                        <DeleteBTN 
-                            @delete-task="deleteTask(item.task_id)"  />
-                    </div>
+        <v-sheet
+            v-if="tasksLength = 0">
+            You have no tasks
+        </v-sheet>
+        <v-list v-else lines="one">
+            <div v-for="item in tasks" :key="item.task_id" >
+                <div class="task__details">
+                    <div
+                        v-if="item.task_id != editing.id"
+                        >{{ item.name }}</div>
+                    <v-text-field 
+                        v-else
+                        class="edit_task" 
+                        v-model = editing.text autofocus
+                        ></v-text-field>
+                    <EditBTN 
+                        v-if="item.task_id != editing.id" 
+                        @edit-task="editTask(item.task_id, item.name)" />
+                    <SaveBTN 
+                        v-else 
+                        @save-task="saveTask(item.name)" />
+                    <DeleteBTN 
+                        @delete-task="deleteTask(item.task_id)"  />
                 </div>
-            </v-list>
+            </div>
+        </v-list>
     </v-card>
 </template>
  
@@ -80,6 +84,9 @@ methods: {
 computed: {
     tasks(){
         return state.getters.allTasks
+    },
+    tasksLength(){
+        return state.getters.allTasks.length()
     },
     isRefresh(){
         return state.getters.isRefreshStatus

@@ -2,7 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { Collections, Database, Errors } from "../enum";
 import { MongoToDoQuery } from "../mongo/todo.query";
 import { INewToDo, IUpdatingTask } from '../entities';
-import { verifyCredentials } from "../middlewear/token.validation";
+import middlewear from '../middlewear/token.validation'
+
 
 class ToDoController {
 
@@ -11,7 +12,12 @@ class ToDoController {
     async createToDo(req: Request, res: Response, next: NextFunction) {
         console.log("createToDo - started...")
         try {
-            const newTask: INewToDo = req.body.taskToAdd
+            const newTask: INewToDo = {
+                user_email: req.body.email,
+                task_id: req.body.taskToAdd.task_id,
+                task: req.body.taskToAdd.task,
+                date_create: req.body.taskToAdd.date_create
+            }
 
             if (!newTask) {
                 console.log("createToDo - task is empty")
@@ -69,9 +75,8 @@ class ToDoController {
         }
     }
 
-    async getAllToDosByUserEmail(req: Request, res: Response, next: NextFunction) {
+    async getAllToDo(req: Request, res: Response, next: NextFunction) {
         try {
-            // const token: string = req.body.token;
             let userEmail: string = req.body.email;
 
             const result = await MongoToDoQuery.getAllToDosByUserEmail(

@@ -6,14 +6,14 @@ export class MongoToDoQuery {
 
     public static async createToDo(database: Database, searchCollection: Collections, newTask: INewToDo): Promise<string | undefined> {
         try {
-            const newToDo: INewToDo = {
-                user_email: newTask.user_email,
-                task_id: newTask.task_id,
-                task: newTask.task,
-                date_create: newTask.date_create
-            };
+            // const newToDo: INewToDo = {
+            //     user_email: newTask.user_email,
+            //     task_id: newTask.task_id,
+            //     task: newTask.task,
+            //     date_create: newTask.date_create
+            // };
             const connection = await MongoHelper.establishConnection(database, searchCollection);
-            const response = await connection.insertOne(newToDo);
+            const response = await connection.insertOne(newTask);
 
             if (!response) {
                 console.log("createToDo not received!");

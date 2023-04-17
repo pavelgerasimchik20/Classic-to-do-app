@@ -1,6 +1,6 @@
 <template>
     <v-sheet width="300" class="mx-auto my-5">
-        <div v-if="!email">
+        <div v-if="!isAuth">
             <p> SignIn to see you todo:</p>
             <GoogleLogin :callback="callback" />
         </div>
@@ -9,7 +9,7 @@
                 <h3>Hi {{ email }} ( 
                     <v-btn 
                         size="x-small" 
-                        @click="clearEmail"
+                        @click="logOut"
                         >log out
                     </v-btn> 
                     )
@@ -20,25 +20,28 @@
 </template>
 
 <script>
+import state from '../store/index'
 
 export default {
-    data: () => ({
-            email: ""
-    }),
-
     methods: { 
         callback(response) {
-            localStorage.setItem("token", response.credential);
+            state.dispatch('login', response)
         },
 
-        clearEmail() {
-            localStorage.removeItem("email");
-            location.reload();
+        logOut() {
+            localStorage.removeItem("token")
+            location.reload()
+        }
+    },
+
+    computed: {
+        isAuth() {
+            return state.getters.isAuth
         }
     },
 
     mounted() {
-        this.email = localStorage.getItem("email");
+        this.token = localStorage.getItem("token");
     }
 }
 
