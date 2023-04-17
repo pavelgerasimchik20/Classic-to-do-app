@@ -8,26 +8,7 @@
       />
       <h2>To-Do List</h2>
       <AddForm @add="addNewTodo"/>
-      <v-row class="mt-4"  v-if="allTodos.length > 0">
-        <v-col v-for="(todo, index) in allTodos" :key="index" cols="12" sm="6" md="4" lg="3">
-          <v-card>
-            <v-card-text class="text-teal font-weight-medium">{{ todo.text }}</v-card-text>
-            <v-card-actions>
-              <div class="pa-0 text-center">
-                <v-btn class="text-none" color="teal" elevation="2" @click="showDialog(todo)">
-                  Edit
-                </v-btn>
-                <v-btn class="text-none" color="teal" elevation="2" @click="remove(todo._id)">
-                  Done
-                </v-btn>
-                <v-label class="text-teal font-weight-light mt-3 mx-4">
-                  <small>{{ todo.createDate }}</small>
-                </v-label>
-              </div>
-            </v-card-actions> 
-          </v-card>
-        </v-col>
-      </v-row>
+      <MainList v-if="allTodos.length > 0" :allTodos="allTodos" @showDialog="showDialog" @remove="remove"/>
       <h2 v-else style="color:teal">
         <br>
         Todo list is empty
@@ -82,13 +63,16 @@ import VueCookies from 'vue-cookies';
 import { decodeCredential } from 'vue3-google-login';
 import SortHelper from '@/helpers/SortHelper.js'
 import {mapGetters, mapActions} from 'vuex'
+import MainList from '../MainList.vue';
 
 export default {
   components: {
     MyDialog,
     MySelector,
-    AddForm
-  },
+    AddForm,
+    MainList
+    
+},
   computed: mapGetters(["allTodos","activeTodos"]),
   data() {
     return {
@@ -96,7 +80,7 @@ export default {
       email: decodeCredential(VueCookies.get('token')).email,
       dialogVisible: false,
       id: undefined,
-      selectedSort: null, //here will be picked sort types
+      selectedSort: null,
     }
   },
   watch: {
