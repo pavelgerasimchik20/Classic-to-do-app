@@ -1,8 +1,8 @@
 import express,{ Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { StaticEnvironment } from './core/environment.static';
-import UserController from './modules/user.controller'
-import ToDoController from './modules/todo.controller'
+import UserController from './controlllers/user.controller'
+import ToDoController from './controlllers/todo.controller'
 import dbConfig from './config/db.config';
 const jwt = require('jsonwebtoken');
 
