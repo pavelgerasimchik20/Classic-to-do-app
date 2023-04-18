@@ -6,61 +6,38 @@ const Role = db.role;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
-exports.signup = (req, res) => {
-  const user = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
-  });
+exports.signup = async (req, res) => {
+  try {
+    const user = new User({
+      username: req.body.username,
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password, 8)
+    });
 
-  user.save((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
-    }
+    const savedUser = await user.save();
 
     if (req.body.roles) {
-      Role.find(
-        {
-          name: { $in: req.body.roles }
-        },
-        (err, roles) => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
+      const roles = await Role.find({ name: { $in: req.body.roles } });
 
-          user.roles = roles.map(role => role._id);
-          user.save(err => {
-            if (err) {
-              res.status(500).send({ message: err });
-              return;
-            }
+      savedUser.roles = roles.map(role => role._id);
 
-            res.send({ message: "User was registered successfully!" });
-          });
-        }
-      );
+      await savedUser.save();
+
+      res.send({ message: "User was registered successfully!" });
     } else {
-      Role.findOne({ name: "user" }, (err, role) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
+      const role = await Role.findOne({ name: "user" });
 
-        user.roles = [role._id];
-        user.save(err => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
+      savedUser.roles = [role._id];
 
-          res.send({ message: "User was registered successfully!" });
-        });
-      });
+      await savedUser.save();
+
+      res.send({ message: "User was registered successfully!" });
     }
-  });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
 };
+
 
 exports.signin = (req, res) => {
   User.findOne({

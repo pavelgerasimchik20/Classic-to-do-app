@@ -1,8 +1,7 @@
 import express,{ Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { StaticEnvironment } from './core/environment.static';
-import UserController from './controlllers/user.controller'
-import ToDoController from './controlllers/todo.controller'
+import ToDoController from './controllers/todo.controller'
 import dbConfig from './config/db.config';
 const jwt = require('jsonwebtoken');
 
@@ -55,12 +54,13 @@ db.mongoose
     }
   }
 
+
   // simple route for a test
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to my application" });
   });
 
-app.post('/create-user', UserController.createUser)
+//app.post('/create-user', UserController.createUser)
 
 app.get('/getAll', ToDoController.getAllToDos)
 
@@ -71,6 +71,9 @@ app.post('/add', ToDoController.addToDo)
 app.put('/update/:id', ToDoController.updateToDo)
 
 app.delete('/delete/:id', ToDoController.deleteToDo)
+
+require('./routes/auth.routes')(app);
+require('./routes/user.routes')(app);
 
 app.listen(
     StaticEnvironment.port,
