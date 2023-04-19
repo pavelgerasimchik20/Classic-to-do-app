@@ -1,15 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AuthView from '../views/AuthView.vue'
+import state from '../store/index' 
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView,
-    // meta: {
-    //     requiresAuth: true
-    // }
+    meta: { requiresAuth: true }
   },
   {
     path: '/login',
@@ -28,10 +27,14 @@ const router = createRouter({
   routes
 })
 
-// router.beforeEach((to, from) => {
-//     if(to.meta.requiresAuth) {
-//         return {name: 'login'}
-//     }
-// })
+
+router.beforeEach( async (to) => {
+    await state.dispatch('checkToken')
+    if (to.meta.requiresAuth && !state.getters.isAuth) {
+        return {
+        path: '/login'
+        }
+    }
+})
 
 export default router

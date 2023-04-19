@@ -20,22 +20,8 @@
 </template>
 
 <script>
-import state from './store/index'
 
 export default {
     name: 'App',
-
-    methods: {
-        logout(){
-            state.dispatch('logOut')
-        }
-    },
-
-//   computed: {
-//     isLogin(){
-//         return state.getters.isLogin
-//     }
-//   }  //TODO
-
 }
 </script>

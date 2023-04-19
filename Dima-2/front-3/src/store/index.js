@@ -2,29 +2,30 @@ import { createStore } from 'vuex'
 import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 
+const host = process.env.VUE_APP_BACK_HOST
+
 export default createStore({
   state: {
     token: "",
     isAuth: false,
     tasks: [],
-    isRefresh: false
+    isLoading: false
   },
 
   getters: {
     isAuth: (state) => state.isAuth,
-    isRefreshStatus: (state) => state.isRefresh,
+    isLoadingStatus: (state) => state.isLoading,
     allTasks: (state) => state.tasks
   },
 
   actions: {
 
     async fetchTasks({commit, state}) {
-        commit("updateIsRefresh", true)
-        const email = localStorage.getItem("email") //TODO email from localstorage or state ?
+        commit("updateIsLoading", true)
         const taskList = []
         await axios.post(
-                'http://0.0.0.0:6600/get-todos', 
-                { email },
+                `${host}/get-todos`, 
+                { },
                 {
                     headers: {
                         'Authorization': state.token
@@ -42,22 +43,23 @@ export default createStore({
                 })
                 console.log("fetchTasks response: ", response)
                 commit("updateTasks", taskList)
-                commit("updateIsRefresh", false)
+                commit("updateIsLoading", false)
             })
             .catch(error => {
                 console.log(error)
-                commit("updateIsRefresh", false)
+                commit("updateIsLoading", false)
             })
     },
     
     async addTask({commit, state}, newItem) {
-            commit("updateIsRefresh", true)
+            commit("updateIsLoading", true)
             const taskToAdd = {
                 task_id: uuidv4(),
                 task: newItem,
                 date_create: Date().toString()
             }
-            await axios.post('http://0.0.0.0:6600/add-todo', 
+            await axios.post(
+                    `${host}/add-todo`, 
                     { taskToAdd },
                     {
                         headers: {
@@ -67,11 +69,11 @@ export default createStore({
                 )
                 .then(response => {
                     console.log(response)
-                    commit("updateIsRefresh", false)
+                    commit("updateIsLoading", false)
                 })
                 .catch(error => {
                     console.log(error)
-                    commit("updateIsRefresh", false)
+                    commit("updateIsLoading", false)
                 })
     },
     
@@ -83,7 +85,7 @@ export default createStore({
                 task: updatingTask.text
             }
             await axios.post(
-                    'http://0.0.0.0:6600/change-todo', 
+                    `${host}/change-todo`, 
                     { taskToUpdate },
                     {
                         headers: {
@@ -101,7 +103,7 @@ export default createStore({
 
     async deleteTask({state}, taskId) {
         await axios.post(
-                'http://0.0.0.0:6600/delete-todo', 
+                `${host}/delete-todo`, 
                 { taskId },
                 {
                     headers: {
@@ -123,18 +125,23 @@ export default createStore({
 
     async checkToken({commit, state}){
         commit("updateToken", localStorage.getItem("token"))
-        await axios.post('http://0.0.0.0:6600/check-auth', {}, 
-        {
-            headers: {
-                'Authorization': state.token
+        await axios.post(
+            `${host}/check-auth`, 
+            {}, 
+            {
+                headers: {
+                    'Authorization': state.token
+                }
             }
-        })
+        )
         .then(response => {
             if(response.data.message !== "Valid token") {
                 commit("updateIsAuth", false); 
                 commit("updateToken", "")
             }
-            commit("updateIsAuth", true)
+            else {
+                commit("updateIsAuth", true)
+            }
         })
         .catch(error => {
             console.log(error)
@@ -164,8 +171,8 @@ export default createStore({
     updateTasks(state, fetchedTasks){
         state.tasks = fetchedTasks
     },
-    updateIsRefresh(state, statusIsRefresh){
-        state.isRefresh = statusIsRefresh
+    updateIsLoading(state, statusIsLoading){
+        state.isLoading = statusIsLoading
     }
   },
 
