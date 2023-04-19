@@ -42,40 +42,41 @@ class ToDoController {
                 task: req.body.taskToUpdate.task
             }
             if (!updatingTask) {
-                console.log("createToDo - task is empty")
+                console.log("changeToDo - task is empty")
                 return res.status(400).json({ errorMessage: Errors.noData });
             }
 
             const result = await MongoToDoQuery.changeToDo(Database.T5Todos, Collections.Dima, updatingTask);
-            console.log("createToDo - todos created!")
+            console.log("changeToDo - todos created!")
             return res.status(200).json({ result });
         }
         catch (error: any) {
-            console.log("createToDo - server error")
+            console.log("changeToDo - server error")
             return res.status(500).json({ errorMessage: Errors.callToAdmin }); //TODO ResponseHelper
         }
     }
     async deleteToDo(req: Request, res: Response, next: NextFunction) {
-        console.log("createToDo - started...")
+        console.log("deleteToDo - started...")
         try {
             const taskId: INewToDo = req.body.taskId
 
             if (!taskId) {
-                console.log("createToDo - task is empty")
+                console.log("deleteToDo - task is empty")
                 return res.status(400).json({ errorMessage: Errors.noData });
             }
 
             const result = await MongoToDoQuery.deleteToDo(Database.T5Todos, Collections.Dima, taskId);
-            console.log("createToDo - todos created!")
+            console.log("deleteToDo - todos created!")
             return res.status(200).json({ result });
         }
         catch (error: any) {
-            console.log("createToDo - server error")
+            console.log("deleteToDo - server error")
             return res.status(500).json({ errorMessage: Errors.callToAdmin }); //TODO ResponseHelper
         }
     }
 
     async getAllToDo(req: Request, res: Response, next: NextFunction) {
+        console.log("getAllToDo - started...")
         try {
             let userEmail: string = req.body.email;
 
@@ -83,10 +84,11 @@ class ToDoController {
                 Database.T5Todos,
                 Collections.Dima,
                 userEmail);
+            console.log("getAllToDo - done")
             return res.status(200).json({ result })
         }
         catch (error: any) {
-            console.log("createToDo - server error")
+            console.log("getAllToDo - server error")
             return res.status(500).json({ errorMessage: Errors.callToAdmin }); //TODO ResponseHelper
         }
     }

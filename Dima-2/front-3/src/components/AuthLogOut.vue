@@ -17,6 +17,7 @@ export default {
 
         logOut() {
             state.dispatch('logOut')
+            this.$router.push({name: 'login'})
         }
     }
 }

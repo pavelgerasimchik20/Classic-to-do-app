@@ -12,11 +12,7 @@ export default {
     methods: { 
         callback(response) {
             state.dispatch('login', response)
-        },
-
-        logOut() {
-            localStorage.removeItem("token")
-            location.reload()
+            this.$router.push({name: 'home'})
         }
     },
 

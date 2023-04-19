@@ -1,0 +1,15 @@
+{
+    "destinations": [
+
+        {
+            "name": "Login",
+            "slug": "/login",
+            "id": 2
+        },
+        {
+            "name": "About",
+            "slug": "/about",
+            "id": 3
+        }
+    ]
+}
