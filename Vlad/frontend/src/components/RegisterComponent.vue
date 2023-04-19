@@ -42,7 +42,9 @@ export default {
     signup() {
       this.$store.dispatch("register", this.registerUser);
       this.clearInput();
+      if(!this.errorMessageVisible) {
       this.router.push("login");
+      }
     },
     clearInput() {
         this.registerUser.email = "";

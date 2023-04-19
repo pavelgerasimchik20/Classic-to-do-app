@@ -10,7 +10,6 @@
 
 <script>
     import { decodeCredential } from 'vue3-google-login';
-    // import { mapMutations } from 'vuex';
 
     export default {
         data() {

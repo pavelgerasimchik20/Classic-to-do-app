@@ -1,10 +1,11 @@
 import axios from "axios";
+import {host} from "../../main"
 
 export default {
   actions: {
     async register({ commit }, registerUser) {
         axios
-          .post("http://localhost:6060/register", {
+          .post(`${host}/register`, {
             email: registerUser.email,
             password: registerUser.password,
           })
@@ -23,7 +24,7 @@ export default {
       },
     async login({ commit }, loginUser) {
       axios
-        .post("http://localhost:6060/login", {
+        .post(`${host}/login`, {
           email: loginUser.email,
           password: loginUser.password,
         })

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { decodeCredential } from "vue3-google-login";
-
-const host = process.env.VUE_APP_LOCAL_HOST;
+import {host} from "../../main"
 
 export default {
   actions: {
@@ -12,7 +11,7 @@ export default {
       console.log(token);
       console.log(user_email);
       await axios
-        .get(`http://localhost:6060/get-todos-by-email/${user_email}`, {
+        .get(`${host}/get-todos-by-email/${user_email}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -31,7 +30,7 @@ export default {
       const token = localStorage.getItem("token");
       axios
         .post(
-          `http://localhost:6060/add-todo`,
+            `${host}/add-todo`,
           {
             value: newTodo.text,
             user_email: newTodo.email,
@@ -53,7 +52,7 @@ export default {
     async deleteTodo({ commit }, id) {
       const token = localStorage.getItem("token");
       await axios
-        .delete(`http://localhost:6060/delete-todo/${id}`, {
+        .delete(`${host}/delete-todo/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -70,7 +69,7 @@ export default {
       const token = localStorage.getItem("token");
       await axios
         .put(
-          `http://localhost:6060/update-todo/${todo.id}`,
+          `${host}/update-todo/${todo.id}`,
           {
             value: todo.text,
           },
