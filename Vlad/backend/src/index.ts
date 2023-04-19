@@ -16,13 +16,13 @@ app.post('/login', UserController.login)
 
 app.get('/get-todos', verifyToken, ToDoController.getAllToDos)
 
-app.post('/get-todos-byemail', ToDoController.getAllToDosByUserEmail)
+app.get('/get-todos-by-email/:email', verifyToken,ToDoController.getAllToDosByUserEmail)
 
-app.post('/add-todo', ToDoController.createToDo)
+app.post('/add-todo', verifyToken,ToDoController.createToDo)
 
-app.put('/update-todo/:id', ToDoController.updateToDo)
+app.put('/update-todo/:id', verifyToken, ToDoController.updateToDo)
 
-app.delete('/delete-todo/:id', ToDoController.deleteToDo) 
+app.delete('/delete-todo/:id', verifyToken,ToDoController.deleteToDo) 
 
 
 app.listen(

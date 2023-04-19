@@ -28,7 +28,7 @@ export default {
     DialogTodo,
   },
   computed: {
-    ...mapGetters(["allTodos"]),
+    ...mapGetters(["allTodos", "loginVisible"]),
   },
   data() {
     return {

@@ -81,7 +81,7 @@ export class MongoToDoQuery {
             const connection = await MongoHelper.establishConnection(database, searchCollection);
             const response = await connection.find(
                     { "user_email": userEmail },
-                    { projection: { _id: 0, todos: 1 } }
+                    // { projection: { _id: 0, todos: 1 } }
                 )
                 .toArray();
 

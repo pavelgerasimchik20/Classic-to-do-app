@@ -11,14 +11,14 @@ import { createVuetify } from 'vuetify/lib/framework.mjs'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
-import MainPage from '@/pages/MainPage'
 import ToDoPage from '@/pages/ToDoPage'
 import LoginPage from '@/pages/LoginPage'
+import RegisterPage from '@/pages/RegisterPage'
 
 const routes = [
     {
-        path: '/',
-        component: MainPage,
+        path: '/register',
+        component: RegisterPage,
     },
     {
         path: '/todos',
@@ -38,14 +38,14 @@ const router = createRouter({
     routes
   });
 
-  router.beforeEach((to, from, next) => {
-    const isAuthenticated = localStorage.getItem('token');
-    if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
-        next('login')
-    } else {
-        next()
-    }
-  })
+//   router.beforeEach((to, from, next) => {
+//     const isAuthenticated = localStorage.getItem('token');
+//     if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
+//         next('login')
+//     } else {
+//         next()
+//     }
+//   })
 
 const vuetify = createVuetify({
     components,

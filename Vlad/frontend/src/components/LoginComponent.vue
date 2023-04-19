@@ -1,6 +1,7 @@
 <template>
+    <div v-if="errorMessageVisible">{{errorMessageVisible}}</div>
   <v-container style="width: 40%" class="mx-auto">
-    <div v-if="!token">
+    <div v-if="loginVisible">
       <v-form @submit.prevent="login">
         <v-text-field
           v-model="loginUser.email"
@@ -14,17 +15,19 @@
           type="password"
           required
         ></v-text-field>
-        <v-btn type="submit" color="primary">Login</v-btn>
+        <v-btn type="submit" color="green" class="mr-3">Log in</v-btn>
+        <v-btn color="orange"><RouterLink to="/register">Sign up</RouterLink></v-btn>
       </v-form>
     </div>
     <div v-else>
+        <h2>You successfully logged in</h2>
       <v-btn color="red" @click="logout"> Logout </v-btn>
     </div>
   </v-container>
 </template>
 
 <script>
-import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -33,28 +36,17 @@ export default {
         email: "",
         password: "",
       },
-      token: localStorage.getItem("token"),
     };
+  },
+  computed: {
+    ...mapGetters(["loginVisible", "errorMessageVisible"]),
   },
   methods: {
     login() {
-      axios
-        .post("http://localhost:6060/login", {
-          email: this.loginUser.email,
-          password: this.loginUser.password,
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.token = response.data;
-          localStorage.setItem("token", this.token);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      this.$store.dispatch("login", this.loginUser);
     },
     logout() {
-      localStorage.removeItem("token");
-      this.token = null;
+      this.$store.dispatch("logout");
     },
   },
 };

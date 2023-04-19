@@ -83,7 +83,7 @@ class ToDoController {
 
     async getAllToDosByUserEmail(req: Request, res: Response, next: NextFunction) {
         try {
-            const userEmail: string = req.body.email;
+            const userEmail: string = req.params.email;
 
             const result = await MongoToDoQuery.getAllToDosByUserEmail(
                 Database.T5Todos, 
