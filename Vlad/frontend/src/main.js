@@ -1,10 +1,12 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router';
+// import dotenv from "dotenv";
+
+// dotenv.config();
 
 import store from './store'
 
 import App from './App.vue'
-import vue3GoogleLogin from 'vue3-google-login'
 
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify/lib/framework.mjs'
@@ -38,24 +40,19 @@ const router = createRouter({
     routes
   });
 
-//   router.beforeEach((to, from, next) => {
-//     const isAuthenticated = localStorage.getItem('token');
-//     if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
-//         next('login')
-//     } else {
-//         next()
-//     }
-//   })
+  router.beforeEach((to, _, next) => {
+    const isAuthenticated = localStorage.getItem('token');
+    if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
+        return next('login')
+    }
+    next()
+  })
 
 const vuetify = createVuetify({
     components,
     directives,
 })
 
-createApp(App).use(store).use(router).use(vuetify).use(vue3GoogleLogin, {
-    clientId: "672649193330-gh9894b05m2kmioqlccp52k0cuo0us6p.apps.googleusercontent.com",
-    scope: "email",
-    promt: "consent"
-}).mount('#app')
+createApp(App).use(store).use(router).use(vuetify).mount('#app')
 
 

@@ -1,11 +1,14 @@
 import axios from "axios";
 import { decodeCredential } from "vue3-google-login";
 
+const host = process.env.VUE_APP_LOCAL_HOST;
+
 export default {
   actions: {
     async fetchTodos({ commit }) {
       const token = localStorage.getItem("token");
       const user_email = decodeCredential(token).email;
+      console.log(host)
       console.log(token);
       console.log(user_email);
       await axios
@@ -28,7 +31,7 @@ export default {
       const token = localStorage.getItem("token");
       axios
         .post(
-          "http://localhost:6060/add-todo",
+          `http://localhost:6060/add-todo`,
           {
             value: newTodo.text,
             user_email: newTodo.email,
