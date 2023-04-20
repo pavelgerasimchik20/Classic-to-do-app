@@ -1,14 +1,36 @@
 <template>
 
-      <v-navigation-drawer
-        class="bg-amber-lighten-4"
-        theme="light"
+    <v-navigation-drawer
+        theme="dark"
+        rail
         permanent
-      >
+        >
         <v-list color="transparent">
-          <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard"></v-list-item>
-          <v-list-item prepend-icon="mdi-account-box" title="Account"></v-list-item>
-          <v-list-item prepend-icon="mdi-gavel" title="Admin"></v-list-item>
+            <v-list-item 
+                v-for="item in menu" 
+                :key=item.id
+                :prepend-icon=item.icon
+                :title=item.name
+                :to="item.path"
+                active-color="yellow"
+            ></v-list-item>
+        </v-list>
+    </v-navigation-drawer>
+
+    <v-navigation-drawer
+        class="bg-amber-lighten-4"
+        theme="dark"
+        permanent
+    >
+
+        <v-list color="transparent">
+            <v-list-item 
+                v-for="item in menu" 
+                :key=item.id
+                :title=item.name
+                :to="item.path"
+                active-color="black"
+            ></v-list-item>
         </v-list>
 
         <template v-if="isLogin" v-slot:append>
@@ -18,12 +40,6 @@
         </template>
       </v-navigation-drawer>
 
-
-        <!-- <nav class="text-h5 pe-8">
-            <router-link class="text-black text-decoration-none" to='/'>Home</router-link> | 
-            <router-link class="text-black text-decoration-none" to="/about">About</router-link> |
-            <router-link class="text-black text-decoration-none" to="/login">Log in</router-link> 
-        </nav> -->
 </template>
 
 <script>
@@ -31,6 +47,14 @@ import state from '../store/index'
 import AuthLogOut from '../components/AuthLogOut.vue'
 
 export default {
+
+    data: () => ({
+        menu: [
+            {id: 1, name: "Home", path: "/", icon: "mdi-view-dashboard"},
+            {id: 2, name: "About", path: "/about", icon: "mdi-account-box"},
+        ]
+    }),
+
     components: {
         AuthLogOut
     },
