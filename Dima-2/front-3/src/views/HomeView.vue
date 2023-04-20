@@ -1,5 +1,5 @@
 <template>
-    <v-sheet width="70vw" class="mx-auto my-5">
+    <v-sheet width="70%" class="mx-auto my-5">
         <AddTask />
         <TaskList />
     </v-sheet>

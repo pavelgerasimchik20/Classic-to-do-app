@@ -27,7 +27,7 @@ export default {
 
     methods: {
         async addTask(){
-            await state.
+            await state.dispatch("addTask", this.newTaskValue)
             state.dispatch('fetchTasks')
             this.newTaskValue = ''
         }
