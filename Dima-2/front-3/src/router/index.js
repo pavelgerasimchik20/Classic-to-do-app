@@ -29,7 +29,9 @@ const router = createRouter({
 
 
 router.beforeEach( async (to) => {
-    await state.dispatch('checkToken')
+    if(localStorage.getItem("token")){
+        await state.dispatch('checkToken')
+    }
     if (to.meta.requiresAuth && !state.getters.isAuth) {
         return {
         path: '/login'

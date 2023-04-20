@@ -1,27 +1,35 @@
 <template>
   <v-app>
-    <v-toolbar class="bg-amber-lighten-4 ">
+
+    <v-layout>
+        <NavBar />
+        <v-main style="height: 400px">
+            <router-view/>
+        </v-main>
+    </v-layout>
+
+    <!-- <v-toolbar class="bg-amber-lighten-4 ">
         <v-toolbar-title 
             class="text-h2 text-amber-lighten-1 font-weight-black ps-8"
             >yO-yO ToDo
         </v-toolbar-title>
 
-        <nav class="text-h5 pe-8">
-            <router-link class="text-black text-decoration-none" to='/'>Home</router-link> | 
-            <router-link class="text-black text-decoration-none" to="/about">About</router-link> |
-            <router-link class="text-black text-decoration-none" to="/login">Log in</router-link> 
-        </nav>
+        <NavBar />
 
-    </v-toolbar>
-    <v-main>
-      <router-view/>
-    </v-main>
+    </v-toolbar> -->
+    <!-- <v-main>
+    </v-main> -->
   </v-app>
 </template>
 
 <script>
+import NavBar from './components/NavBar.vue' 
 
 export default {
     name: 'App',
+
+    components: {
+        NavBar
+    }
 }
 </script>
