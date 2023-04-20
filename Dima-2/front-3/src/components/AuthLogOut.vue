@@ -1,5 +1,5 @@
 <template>
-    <v-sheet width="100" class="mx-auto my-5">
+    <v-sheet class="mx-auto my-5">
         <UniversalBTN @event="logOut" title="Log Out"/>
     </v-sheet>
 </template>
@@ -14,7 +14,6 @@ export default {
     },
 
     methods: { 
-
         logOut() {
             state.dispatch('logOut')
             this.$router.push({name: 'login'})

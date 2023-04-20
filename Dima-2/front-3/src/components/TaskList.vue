@@ -1,9 +1,6 @@
 <template>
-    <v-progress-linear v-if="isRefresh"
-      indeterminate
-    ></v-progress-linear>
     <v-card
-        v-else
+        :loading="isLoading"
         class="mx-auto"
         >
         <v-sheet
@@ -88,8 +85,8 @@ computed: {
     tasksLength(){
         return state.getters.allTasks.length()
     },
-    isRefresh(){
-        return state.getters.isRefreshStatus
+    isLoading(){
+        return state.getters.isLoadingStatus
     }
 },
 
