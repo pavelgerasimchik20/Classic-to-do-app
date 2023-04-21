@@ -21,6 +21,8 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
         }
 
         req.body.email = payload.email;
+        req.body.userPhoto = payload.picture;
+        req.body.userEmail = payload.email;
     }
     catch(error) {
         return res.status(400).send("Invalid Token");

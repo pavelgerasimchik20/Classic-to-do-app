@@ -7,3 +7,8 @@ export interface INewToDo extends IUpdatingTask {
     user_email: string,
     date_create: string
 };
+
+export interface IResponseTasks {
+    tasks: [],
+    userPhoto?: ""
+}

@@ -1,4 +1,4 @@
-import { INewToDo, IUpdatingTask } from "../entities";
+import { INewToDo, IResponseTasks, IUpdatingTask } from "../entities";
 import { Collections, Database, Errors } from "../enum";
 import { MongoHelper } from "./mongo.helper";
 
@@ -74,19 +74,20 @@ export class MongoToDoQuery {
     public static async getAllToDosByUserEmail(database: Database, searchCollection: Collections, userEmail: string): Promise<any | undefined> {
         try {
             const connection = await MongoHelper.establishConnection(database, searchCollection);
-            const response = await connection.find(
+            const tasks = await connection.find(
                 { "user_email": userEmail },
-                // { projection: { _id: 0, task_id: 1, task: 1, date_create: 1 } }
+                { projection: { _id: 0, task_id: 1, task: 1, date_create: 1 } }
             )
             .sort( { "date_create": -1 } )
             .toArray();
 
-            if (!response) {
+            if (!tasks) {
                 console.log("getAllToDosByUserEmail not received!");
                 return undefined; //TODO 
             }
 
             console.log("getAllToDosByUserEmail received!");
+            const response = { tasks }
             return response;
         }
         catch (error: any) {

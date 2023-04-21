@@ -8,12 +8,16 @@ export default createStore({
   state: {
     token: "",
     isAuth: false,
+    userPhoto: "",
+    userEmail: "",
     tasks: [],
     isLoading: false
   },
 
   getters: {
     isAuth: (state) => state.isAuth,
+    userPhoto: (state) => state.userPhoto,
+    userEmail: (state) => state.userEmail,
     isLoadingStatus: (state) => state.isLoading,
     allTasks: (state) => state.tasks
   },
@@ -33,7 +37,7 @@ export default createStore({
                 }
             )
             .then(response => {
-                response.data.result.forEach(item => {
+                response.data.result.tasks.forEach(item => {
                     let taskDetails = {
                         task_id: item.task_id,
                         name: item.task,
@@ -42,6 +46,8 @@ export default createStore({
                     taskList.push(taskDetails)
                 })
                 console.log("fetchTasks response: ", response)
+                commit("updateUserPhoto", response.data.result.userPhoto)
+                commit("updateUserEmail", response.data.result.userEmail)
                 commit("updateTasks", taskList)
                 commit("updateIsLoading", false)
             })
@@ -159,6 +165,8 @@ export default createStore({
     logOut({commit}) {
         commit("updateToken", "")
         commit("updateIsAuth", false)
+        commit("updateUserPhoto", "")
+        commit("updateUserEmail", "")
         localStorage.removeItem("token")
     }
 
@@ -171,6 +179,12 @@ export default createStore({
     updateIsAuth(state, isAuth){
         state.isAuth = isAuth ? true : false
     },
+    updateUserPhoto(state, userPhoto){
+        state.userPhoto = userPhoto
+    },
+    updateUserEmail(state, userEmail){
+        state.userEmail = userEmail
+    },    
     updateTasks(state, fetchedTasks){
         state.tasks = fetchedTasks
     },

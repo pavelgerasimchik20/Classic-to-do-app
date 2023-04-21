@@ -1,17 +1,19 @@
 <template>
-    <v-sheet class="mx-auto my-5">
-        <UniversalBTN @event="logOut" title="Log Out"/>
-    </v-sheet>
+        <v-list density="compact" nav>
+            <v-list-item 
+                prepend-icon="mdi-logout"
+                title="Log out"
+                value="Log out"
+                v-on:click="logOut"
+                ></v-list-item>
+        </v-list>
+
 </template>
 
 <script>
 import state from '../store/index'
-import UniversalBTN from './Buttons/UniversalBTN.vue' 
 
 export default {
-    components: {
-        UniversalBTN
-    },
 
     methods: { 
         logOut() {

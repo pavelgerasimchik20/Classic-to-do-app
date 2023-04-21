@@ -12,7 +12,8 @@
                 <div class="task__details">
                     <div
                         v-if="item.task_id != editing.id"
-                        >{{ item.name }}</div>
+                        >{{ item.name }}
+                    </div>
                     <v-text-field 
                         v-else
                         class="edit_task" 

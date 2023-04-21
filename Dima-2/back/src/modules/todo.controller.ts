@@ -85,6 +85,8 @@ class ToDoController {
                 Collections.Dima,
                 userEmail);
             console.log("getAllToDo - done")
+            result.userPhoto = req.body.userPhoto
+            result.userEmail = req.body.userEmail
             return res.status(200).json({ result })
         }
         catch (error: any) {
