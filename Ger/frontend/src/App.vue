@@ -74,9 +74,9 @@ export default {
     },
     innerCallback(response) {
       this.token = response.credential;
-      console.log(response.credential)
+      console.log(response.credential);
       VueCookies.set('token', this.token);
-      console.log('token seted')
+      console.log('token seted');
     }
   }
 }

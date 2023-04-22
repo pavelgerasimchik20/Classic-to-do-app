@@ -2,10 +2,12 @@ import axios from 'axios';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
+const host = process.env.VUE_APP_LOCAL_HOST
+
 export default {
     actions: {
         async fetchTodos(context, email){
-            await axios.post(`http://localhost:6060/getByEmail/${email}`)
+            await axios.post(`${host}/getByEmail/${email}`)
             .then(response => {
                 context.commit('updateTodos', response.data.result)
             })
