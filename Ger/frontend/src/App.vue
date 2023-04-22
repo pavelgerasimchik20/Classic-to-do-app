@@ -68,15 +68,9 @@ export default {
     },
     callback(response) {
       this.response = response
+      console.log(response)
       console.log('callback started')
       this.innerCallback(this.response);
-      // setInterval(() => {
-      //   console.log('before logout')
-      //   googleLogout();
-      //   console.log('after logout');
-      //   console.log('new login');
-      //   this.innerCallback(this.response);
-      // }, 10000);
     },
     innerCallback(response) {
       this.token = response.credential;
