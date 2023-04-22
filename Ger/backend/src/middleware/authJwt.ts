@@ -1,18 +1,21 @@
 import { Request, Response, NextFunction } from "express";
+import {RequestWithUserId} from "../entities"
+
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.ts");
-const db = require("../models");
+const db = require("../models/index.js");
 const User = db.user;
 const Role = db.role;
 
-verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
+
+ const verifyToken = (req: RequestWithUserId, res: Response, next: NextFunction) => {
+  let token = req.request.headers["x-access-token"];
 
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
   }
 
-  jwt.verify(token, config.secret, (err, decoded) => {
+  jwt.verify(token, config.secret, (err: any, decoded: any) => {
     if (err) {
       return res.status(401).send({ message: "Unauthorized!" });
     }
@@ -21,15 +24,15 @@ verifyToken = (req, res, next) => {
   });
 };
 
-isAdmin = (req, res, next) => {
+const isAdmin = (req: RequestWithUserId, res: Response, next: NextFunction) => {
   User.findById(req.userId).exec()
-    .then(user => {
+    .then((user: any) => {
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
 
       Role.find({ _id: { $in: user.roles } }).exec()
-        .then(roles => {
+        .then((roles: any) => {
           for (let i = 0; i < roles.length; i++) {
             if (roles[i].name === "admin") {
               next();
@@ -39,18 +42,18 @@ isAdmin = (req, res, next) => {
           res.status(403).send({ message: "Require Admin Role!" });
           return;
         })
-        .catch(err => {
+        .catch((err: any) => {
           res.status(500).send({ message: err });
           return;
         });
     })
-    .catch(err => {
+    .catch((err: any) => {
       res.status(500).send({ message: err });
       return;
     });
 };
 
-isModerator = async (req, res, next) => {
+const isModerator = async (req: RequestWithUserId, res: Response, next: NextFunction) => {
   try {
     const user = await User.findById(req.userId);
     const roles = await Role.find({ _id: { $in: user.roles } });
