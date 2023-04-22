@@ -1,4 +1,4 @@
-import express,{ Request, Response, NextFunction } from 'express';
+import express from 'express';
 import cors from 'cors';
 import { StaticEnvironment } from './core/environment.static';
 import ToDoController from './controllers/todo.controller'

@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 const config = require("../config/auth.config");
 const db = require("../models");
 const User = db.user;
@@ -6,7 +7,7 @@ const Role = db.role;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
-exports.signup = async (req, res) => {
+exports.signup = async (req: Request, res: Response) => {
   try {
     const user = new User({
       username: req.body.username,
@@ -19,7 +20,7 @@ exports.signup = async (req, res) => {
     if (req.body.roles) {
       const roles = await Role.find({ name: { $in: req.body.roles } });
 
-      savedUser.roles = roles.map(role => role._id);
+      savedUser.roles = roles.map((role: { _id: any }) => role._id);
 
       await savedUser.save();
 
@@ -33,12 +34,12 @@ exports.signup = async (req, res) => {
 
       res.send({ message: "User was registered successfully!" });
     }
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).send({ message: err.message });
   }
 };
 
-exports.signin = async (req, res) => {
+exports.signin = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({ username: req.body.username }).populate("roles", "-__v");
     
@@ -52,9 +53,9 @@ exports.signin = async (req, res) => {
       return res.status(401).send({ accessToken: null, message: "Invalid password!" });
     }
 
-    const token = jwt.sign({ id: user.id }, config.secret, { expiresIn: 86400 }); //24 hours
+    const token = jwt.sign({ id: user.id }, config.secret, { expiresIn: 86400 });
 
-    const authorities = user.roles.map(role => `ROLE_${role.name.toUpperCase()}`);
+    const authorities = user.roles.map((role: any) => `ROLE_${role.name.toUpperCase()}`);
 
     res.status(200).send({
       id: user._id,
@@ -63,7 +64,7 @@ exports.signin = async (req, res) => {
       roles: authorities,
       accessToken: token
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).send({ message: err.message });
   }
 };
