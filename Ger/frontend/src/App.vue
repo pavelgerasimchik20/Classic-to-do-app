@@ -1,6 +1,7 @@
 <template>
 <div>
-  <GoogleLogin class="mt-12" v-if="token.length < 1" :callback="myFunction"/>
+  <!-- <GoogleLogin class="mt-12" v-if="token.length < 1" :callback="myFunction"/> -->
+  <SignUp class="mt-12" v-if="token.length < 1"/>
   <v-app v-else>
     <v-toolbar
       prominent
@@ -26,6 +27,7 @@
 
 <script>
 import '@mdi/font/css/materialdesignicons.css';
+import SignUp from './components/SignUp.vue'
 import ToDoComponent from './components/pages/ToDoPage.vue'
 import About from './components/pages/About.vue'
 import NotFound from './components/pages/NotFound.vue'
@@ -41,7 +43,8 @@ export default {
   components: {
     ToDoComponent,
     About,
-    NotFound
+    NotFound,
+    SignUp
   },
   data() {
     return {

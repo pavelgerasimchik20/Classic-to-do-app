@@ -1,8 +1,9 @@
+import { Request, Response, NextFunction } from "express";
 const db = require("../models");
 const ROLES = db.ROLES;
 const User = db.user;
 
-checkDuplicateUsernameOrEmail = async (req, res, next) => {
+const checkDuplicateUsernameOrEmail = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await User.findOne({
       $or: [
@@ -24,7 +25,7 @@ checkDuplicateUsernameOrEmail = async (req, res, next) => {
   }
 };
 
-checkRolesExisted = (req, res, next) => {
+const checkRolesExisted = async (req: Request, res: Response, next: NextFunction) => {
   if (req.body.roles) {
     for (let i = 0; i < req.body.roles.length; i++) {
       if (!ROLES.includes(req.body.roles[i])) {
