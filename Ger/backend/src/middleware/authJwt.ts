@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import {RequestWithUserId} from "../entities"
 
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.ts");
@@ -8,8 +7,9 @@ const User = db.user;
 const Role = db.role;
 
 
- const verifyToken = (req: RequestWithUserId, res: Response, next: NextFunction) => {
-  let token = req.request.headers["x-access-token"];
+ const verifyToken =  async (req: Request, res: Response, next: NextFunction) => {
+  
+  let token = req.headers["x-access-token"];
 
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
@@ -19,13 +19,13 @@ const Role = db.role;
     if (err) {
       return res.status(401).send({ message: "Unauthorized!" });
     }
-    req.userId = decoded.id;
+    req.body.userId = decoded.id;
     next();
   });
 };
 
-const isAdmin = (req: RequestWithUserId, res: Response, next: NextFunction) => {
-  User.findById(req.userId).exec()
+const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
+  User.findById(req.body.userId).exec()
     .then((user: any) => {
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
@@ -53,9 +53,9 @@ const isAdmin = (req: RequestWithUserId, res: Response, next: NextFunction) => {
     });
 };
 
-const isModerator = async (req: RequestWithUserId, res: Response, next: NextFunction) => {
+const isModerator = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await User.findById(req.userId);
+    const user = await User.findById(req.body.userId);
     const roles = await Role.find({ _id: { $in: user.roles } });
 
     for (let i = 0; i < roles.length; i++) {
