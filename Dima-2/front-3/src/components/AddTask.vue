@@ -5,7 +5,7 @@
                 v-model="newTaskValue"
                 autofocus
                 label="New Task"
-                @keyup.enter="addTask"
+                v-on:keydown.enter="addTask"
             ></v-text-field>
             <UniversalBTN @event="addTask" title="ADD"/>
         </v-form>

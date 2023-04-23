@@ -4,31 +4,38 @@
         class="mx-auto"
         >
         <v-sheet
-            v-if="tasksLength = 0">
+            v-if="tasksLength == 0">
             You have no tasks
         </v-sheet>
+
         <v-list v-else lines="one">
-            <div v-for="item in tasks" :key="item.task_id" >
-                <div class="task__details">
-                    <div
-                        v-if="item.task_id != editing.id"
-                        >{{ item.name }}
-                    </div>
+            <v-list-item 
+                v-for="item in tasks" 
+                :key="item.task_id" 
+                >
+                    <p v-if="item.task_id != editing.id">
+                        {{ item.name }} 
+                    </p>
+                    
                     <v-text-field 
                         v-else
-                        class="edit_task" 
                         v-model = editing.text autofocus
-                        ></v-text-field>
-                    <EditBTN 
-                        v-if="item.task_id != editing.id" 
-                        @edit-task="editTask(item.task_id, item.name)" />
-                    <SaveBTN 
-                        v-else 
-                        @save-task="saveTask(item.name)" />
-                    <DeleteBTN 
-                        @delete-task="deleteTask(item.task_id)"  />
-                </div>
-            </div>
+                    ></v-text-field>
+                    
+                    <template v-slot:append>
+                            <EditBTN 
+                                v-if="item.task_id != editing.id" 
+                                @edit-task="editTask(item.task_id, item.name)" />
+
+                            <SaveBTN 
+                                v-else 
+                                @save-task="saveTask(item.name)" />
+
+                            <DeleteBTN 
+                                @delete-task="deleteTask(item.task_id)"  />
+                    </template>
+
+            </v-list-item>
         </v-list>
     </v-card>
 </template>
@@ -84,7 +91,7 @@ computed: {
         return state.getters.allTasks
     },
     tasksLength(){
-        return state.getters.allTasks.length()
+        return state.getters.allTasks.length
     },
     isLoading(){
         return state.getters.isLoadingStatus
@@ -104,8 +111,8 @@ mounted() {
     grid-template-columns: 3fr 70px 70px;
     grid-template-rows: 70px;
     padding: 0 0 0 20px;
-    align-items:center;
-    font-size: x-large;
+    align-items: center;
+    font-size: large;
 }
 
 .task__details:hover {
