@@ -1,7 +1,7 @@
 <template>
 <div>
-  <!-- <GoogleLogin class="mt-12" v-if="token.length < 1" :callback="myFunction"/> -->
-  <SignUp class="mt-12" v-if="token.length < 1"/>
+  <GoogleLogin class="mt-12" v-if="token.length < 1" :callback="myFunction"/>
+  <!-- <SignUp class="mt-12" v-if="token.length < 1"/> -->
   <v-app v-else>
     <v-toolbar
       prominent
